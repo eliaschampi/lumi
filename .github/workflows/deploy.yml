@@ -33,12 +33,25 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      # Sitio de usuario (repositorio "<login>.github.io") → raíz;
+      # sitio de proyecto → subdirectorio con el nombre del repositorio.
+      # Funciona con cualquier nombre o renombrado futuro.
+      - name: Compute Pages base path
+        id: base
+        env:
+          REPO_NAME: ${{ github.event.repository.name }}
+          REPO_OWNER: ${{ github.event.repository.owner.login }}
+        run: |
+          if [ "$REPO_NAME" = "$REPO_OWNER.github.io" ]; then
+            echo "path=" >> "$GITHUB_OUTPUT"
+          else
+            echo "path=/$REPO_NAME" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Build site
         run: pnpm run build
         env:
-          # GitHub Pages publica los sitios de proyecto bajo /lumi-web.
-          # Con un dominio propio, elimina esta variable.
-          PAGES_BASE_PATH: /lumi-web
+          PAGES_BASE_PATH: ${{ steps.base.outputs.path }}
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

@@ -35,13 +35,15 @@ pnpm run format   # prettier --write .
 
 ### GitHub Pages (automático)
 
-El flujo de trabajo [`.github/workflows/deploy.yml`](./.github/workflows/deploy.yml) publica el sitio en cada push a `main`:
+El flujo de trabajo [`.github/workflows/deploy.yml`](./.github/workflows/deploy.yml) detecta solo la base de despliegue: raíz para un sitio de usuario (`eliaschampi.github.io`) o subdirectorio para un sitio de proyecto (`eliaschampi.github.io/<repo>/`).
 
-1. Crea el repositorio `eliaschampi/lumi-web` en GitHub.
-2. En **Settings → Pages**, elige **Source: GitHub Actions**.
-3. Haz push; el sitio queda en `https://eliaschampi.github.io/lumi-web/`.
+Puesta en marcha:
 
-El prefijo `/lumi-web` se inyecta en tiempo de build con `PAGES_BASE_PATH`. Con un **dominio propio**, elimina esa variable del flujo de trabajo (o del entorno) y el sitio se construye en la raíz.
+1. En **Settings → Actions → General**, permite todas las acciones.
+2. En **Settings → Pages**, elige **Source: GitHub Actions** (no "Deploy from a branch").
+3. En la pestaña **Actions**, ejecuta **Deploy to GitHub Pages** (o haz push a `main`).
+
+Para el sitio en la raíz (`https://eliaschampi.github.io/`), renombra el repositorio a **`eliaschampi.github.io`**; el flujo de trabajo se adapta solo. Con un **dominio propio** tampoco requiere cambios: la base sigue en la raíz.
 
 ### Otros hosts
 
