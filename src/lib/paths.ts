@@ -1,13 +1,7 @@
-import { base } from '$app/paths';
+import { resolve } from '$app/paths';
+import type { Pathname } from '$app/types';
 
-/** Prefija una ruta raiz-relativa con la base de despliegue. */
-export function href(path: string): string {
-	return `${base}${path}`;
-}
-
-/** Elimina la base de despliegue de un pathname. */
-export function route(pathname: string): string {
-	if (base && pathname === base) return '/';
-	if (base && pathname.startsWith(`${base}/`)) return pathname.slice(base.length);
-	return pathname;
+/** Resuelve rutas internas con la base de SvelteKit, también durante el prerender. */
+export function href(path: Pathname): string {
+	return resolve(path);
 }

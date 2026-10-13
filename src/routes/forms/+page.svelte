@@ -14,6 +14,7 @@
 		Switch,
 		Textarea
 	} from '@lumi-ui/svelte';
+	import { repositoryUrl } from '$lib/site';
 
 	let name = $state('Lumi Workspace');
 	let email = $state('hello@example.com');
@@ -36,23 +37,47 @@
 		event.preventDefault();
 		submitted = true;
 	}
+
+	function resetForm(): void {
+		name = 'Lumi Workspace';
+		email = 'hello@example.com';
+		seats = 12;
+		region = 'Lima';
+		plan = 'team';
+		notes = 'Una interfaz tranquila, clara y consistente.';
+		notifications = true;
+		analytics = false;
+		capacity = 68;
+		submitted = false;
+	}
 </script>
 
 <div class="lumi-stack lumi-stack--xl lumi-min-width--0">
 	<PageHeader
 		title="Formularios"
-		subtitle="Controles accesibles organizados con Grid y Stack"
+		subtitle="Prueba controles conectados, validación nativa y restablecimiento."
+		level={1}
 		icon="clipboardPenLine"
 		size="xl"
 	/>
+	<p class="lumi-text--sm lumi-text--muted">
+		Este formulario usa datos ficticios y no envía información a un servidor. <a
+			href={`${repositoryUrl}/blob/main/src/routes/forms/+page.svelte`}
+			class="lumi-text--primary">Ver código completo</a
+		>.
+	</p>
 
 	{#if submitted}
-		<Alert color="success" title="Preferencias guardadas" closable>
-			La demostración actualizó su estado local correctamente.
+		<Alert color="success" title="Demostración completada" closable bind:active={submitted}>
+			El formulario es válido. Los valores solo se conservan mientras visitas esta página.
 		</Alert>
 	{/if}
 
-	<Card title="Configurar workspace" subtitle="Ejemplo completo sin estilos de aplicación" spaced>
+	<Card
+		title="Configurar un espacio de trabajo"
+		subtitle="Todos los controles se pueden probar"
+		spaced
+	>
 		<form class="lumi-stack lumi-stack--lg" onsubmit={submitForm}>
 			<Fieldset legend="Identidad">
 				<div class="lumi-grid lumi-grid--columns-2 lumi-grid--gap-md">
@@ -74,7 +99,7 @@
 					bind:value={plan}
 					options={planOptions}
 					fullWidth
-					aria-label="Plan del workspace"
+					aria-label="Plan del espacio de trabajo"
 				/>
 			</Fieldset>
 
@@ -98,7 +123,7 @@
 			<Textarea bind:value={notes} name="notes" label="Notas" rows={4} maxlength={240} showCount />
 
 			<div class="lumi-flex lumi-flex--wrap lumi-justify--end lumi-flex--gap-sm">
-				<Button variant="flat" onclick={() => (submitted = false)}>Cancelar</Button>
+				<Button variant="flat" onclick={resetForm}>Restablecer ejemplo</Button>
 				<Button
 					variant="filled"
 					icon="check"

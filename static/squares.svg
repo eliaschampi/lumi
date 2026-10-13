@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 80">
+  <rect width="120" height="80" fill="Canvas" />
+  <path d="M25 15h40v40H25zM55 25h40v40H55z" fill="none" stroke="CanvasText" stroke-width="3" />
+</svg>

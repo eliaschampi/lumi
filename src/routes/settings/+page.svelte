@@ -8,22 +8,15 @@
 		InfoItem,
 		PageHeader,
 		Radio,
-		SegmentedControl,
-		type SegmentedControlOption
+		SegmentedControl
 	} from '@lumi-ui/svelte';
-	import { colorScheme } from '$lib/color-scheme.svelte';
+	import { colorScheme, setThemePreference, themeChoices } from '$lib/color-scheme.svelte';
 	import { navigationMode, setNavigationMode } from '$lib/navigation-mode.svelte';
 
-	const themeOption: SegmentedControlOption[] = [
-		{ value: 'system', label: 'Sistema', icon: 'monitor' },
-		{ value: 'light', label: 'Claro', icon: 'sun' },
-		{ value: 'dark', label: 'Oscuro', icon: 'moon' }
-	];
+	const themeOption = themeChoices.map(({ value, label, icon }) => ({ value, label, icon }));
 
-	function setColorScheme(value: string | number): void {
-		if (value === 'system' || value === 'light' || value === 'dark') {
-			colorScheme.setPreference(value);
-		}
+	function themeLabel(value: string): string {
+		return themeChoices.find((choice) => choice.value === value)?.label ?? value;
 	}
 
 	function resetPreferences(): void {
@@ -34,8 +27,9 @@
 
 <div class="lumi-stack lumi-stack--xl lumi-min-width--0">
 	<PageHeader
-		title="Ajustes"
-		subtitle="Color scheme con CSS del consumidor y preferencias reales del sitio"
+		title="Apariencia"
+		subtitle="Prueba los temas y adapta la navegación a tu forma de explorar."
+		level={1}
 		icon="settings"
 		size="xl"
 	>
@@ -44,50 +38,50 @@
 		{/snippet}
 	</PageHeader>
 
-	<Alert color="info" title="Separación de responsabilidades">
-		La identidad primary/secondary pertenece al desarrollador. El usuario final solo elige sistema,
-		claro u oscuro; la densidad de navegación cambia el sidebar de este sitio en tiempo real.
+	<Alert color="info" title="Tu preferencia, tu navegador">
+		El tema se recuerda en este navegador. La navegación compacta se aplica durante esta visita.
 	</Alert>
 
-	<div
-		class="lumi-grid lumi-grid--responsive lumi-grid--gap-lg"
-		style="--lumi-grid-responsive-min: var(--lumi-centered-card-width-md)"
-	>
+	<div class="lumi-grid lumi-grid--columns-2 lumi-grid--gap-lg">
 		<Card
 			title="Apariencia"
 			subtitle="Preferencia persistente y sincronizada con el sistema"
 			spaced
 		>
 			<div class="lumi-stack lumi-stack--lg">
-				<Fieldset legend="Color scheme">
+				<Fieldset legend="Tema">
 					<SegmentedControl
 						value={colorScheme.preference}
 						options={themeOption}
 						fullWidth
-						aria-label="Color scheme"
-						onchange={setColorScheme}
+						aria-label="Tema de la interfaz"
+						onchange={setThemePreference}
 					/>
 				</Fieldset>
 
 				<div class="lumi-grid lumi-grid--columns-2 lumi-grid--gap-sm">
-					<InfoItem label="Preferencia" value={colorScheme.preference} icon="settings" />
-					<InfoItem label="Tema resuelto" value={colorScheme.resolved} icon="sparkles" />
+					<InfoItem
+						label="Preferencia"
+						value={themeLabel(colorScheme.preference)}
+						icon="settings"
+					/>
+					<InfoItem label="Tema actual" value={themeLabel(colorScheme.resolved)} icon="sparkles" />
 				</div>
 
 				<div class="lumi-flex lumi-flex--wrap lumi-flex--gap-sm">
-					<Chip color="primary">Primary</Chip>
-					<Chip color="secondary">Secondary</Chip>
-					<Chip color="success">Success</Chip>
-					<Chip color="warning">Warning</Chip>
-					<Chip color="danger">Danger</Chip>
-					<Chip color="info">Info</Chip>
+					<Chip color="primary">Principal</Chip>
+					<Chip color="secondary">Secundario</Chip>
+					<Chip color="success">Éxito</Chip>
+					<Chip color="warning">Advertencia</Chip>
+					<Chip color="danger">Error</Chip>
+					<Chip color="info">Información</Chip>
 				</div>
 			</div>
 		</Card>
 
-		<Card title="Navegación" subtitle="Densidad aplicada al sidebar del showcase" spaced>
+		<Card title="Navegación" subtitle="Elige cuánto espacio ocupa el menú lateral" spaced>
 			<div class="lumi-stack lumi-stack--lg">
-				<Fieldset legend="Estado inicial del sidebar">
+				<Fieldset legend="Densidad de navegación">
 					<div class="lumi-stack lumi-stack--sm">
 						<Radio
 							bind:group={navigationMode.preference}

@@ -1,78 +1,129 @@
-# Lumi Web
+# Lumi · sitio público de Lumi UI
 
-Showcase público de **[Lumi UI](https://github.com/eliaschampi/lumi-ui)** — una biblioteca de componentes Svelte 5 con tokens semánticos, glassmorfismo sereno y composición real.
+**[Explorar el sitio](https://eliaschampi.github.io/lumi/)** · [Biblioteca](https://github.com/eliaschampi/lumi-ui) · [npm](https://www.npmjs.com/package/@lumi-ui/svelte) · [Contribuir](./CONTRIBUTING.md)
 
-Este sitio está construido con **SvelteKit** y consume `@lumi-ui/svelte` desde npm: cada página, layout y patrón visible se compone exclusivamente con componentes Lumi y sus clases públicas. Sin estilos de aplicación, sin colores crudos, sin frameworks de CSS.
+Lumi UI es una biblioteca open source de componentes **Svelte 5**, contratos TypeScript, tokens semánticos y clases de composición. Este repositorio contiene su sitio público: una introducción, una guía de instalación y ejemplos interactivos construidos con el paquete publicado en npm.
 
-## Explorar
-
-| Sección         | Contenido                                                        |
-| --------------- | ---------------------------------------------------------------- |
-| **Inicio**      | Shell responsive, métricas, accesos rápidos y actividad          |
-| **Componentes** | Acciones, formularios, estados, identidad, navegación y overlays |
-| **Formularios** | Controles accesibles organizados con Grid y Stack                |
-| **Datos**       | Tablas tipadas, selección, paginación y gráficos responsivos     |
-| **Ajustes**     | Color scheme persistente y densidad real de navegación           |
-
-## Desarrollo
+## Usar Lumi en tu aplicación
 
 ```bash
-pnpm install
-pnpm run dev      # http://localhost:5174
+pnpm add @lumi-ui/svelte
 ```
 
-Otros comandos:
+Importa los estilos una sola vez en la raíz de tu aplicación:
+
+```svelte
+<script lang="ts">
+	import '@lumi-ui/svelte/styles';
+	import { Button, Card, Input } from '@lumi-ui/svelte';
+
+	let name = $state('Mi proyecto');
+</script>
+
+<Card title="Mi primera interfaz" spaced>
+	<div class="lumi-stack lumi-stack--md">
+		<Input bind:value={name} label="Nombre" />
+		<Button variant="filled" disabled={!name.trim()}>Continuar</Button>
+	</div>
+</Card>
+```
+
+Consulta [Empezar](https://eliaschampi.github.io/lumi/getting-started), la [referencia de componentes](https://github.com/eliaschampi/lumi-ui/blob/main/docs/COMPONENTS.md) y las [notas de migración](https://github.com/eliaschampi/lumi-ui/blob/main/docs/UPGRADE.md). Los contratos de la biblioteca viven en `lumi-ui`; este sitio los consume.
+
+## Qué encontrarás
+
+| Sección     | Propósito                                                |
+| ----------- | -------------------------------------------------------- |
+| Inicio      | Qué ofrece Lumi, instalación y una primera interacción   |
+| Empezar     | Estilos, ejemplo copiable y control de apariencia        |
+| Componentes | Familias, variantes, estados, diálogos y código de uso   |
+| Formularios | Validación nativa, selección y restablecimiento          |
+| Datos       | Búsqueda, selección, paginación y gráficos               |
+| Apariencia  | Tema persistente y navegación compacta durante la visita |
+
+Los datos son ficticios. Los formularios y archivos seleccionados permanecen en el navegador; no hay cuentas, envíos ni persistencia en un servidor. `RemoteSelect` se documenta como una integración con una API real: GitHub Pages no ejecuta consultas de servidor. La búsqueda interactiva del sitio usa `Select` con filtrado local.
+
+## Desarrollar este sitio
+
+Requisitos: Node.js **22.12 o posterior** y **pnpm 10.33.2**, declarado en `packageManager`. CI usa Node.js 24.
 
 ```bash
-pnpm run build    # build estático prerenderizado en build/
-pnpm run preview  # sirve el build localmente
-pnpm run check    # svelte-check
-pnpm run lint     # prettier --check .
-pnpm run format   # prettier --write .
+git clone https://github.com/eliaschampi/lumi.git lumi-web
+cd lumi-web
+pnpm install --frozen-lockfile
+pnpm run dev
 ```
 
-## Despliegue
+El servidor abre en `http://localhost:5174`. Comandos disponibles:
 
-### GitHub Pages (automático)
+| Comando            | Resultado                                          |
+| ------------------ | -------------------------------------------------- |
+| `pnpm run dev`     | Desarrollo con recarga automática                  |
+| `pnpm run format`  | Formato del proyecto                               |
+| `pnpm run lint`    | Verificación de formato                            |
+| `pnpm run check`   | TypeScript, Svelte y diagnósticos de accesibilidad |
+| `pnpm run build`   | Sitio prerenderizado en `build/`                   |
+| `pnpm run preview` | Vista previa del build en `http://localhost:4173`  |
 
-El flujo de trabajo [`.github/workflows/deploy.yml`](./.github/workflows/deploy.yml) detecta solo la base de despliegue: raíz para un sitio de usuario (`eliaschampi.github.io`) o subdirectorio para un sitio de proyecto (`eliaschampi.github.io/<repo>/`).
+### Versión de la biblioteca
 
-Puesta en marcha:
+`pnpm-lock.yaml` fija la versión instalada. El sitio lee su versión y requisito de Svelte desde el `package.json` de ese paquete al compilar; no mantiene una segunda versión manual en la interfaz.
 
-1. En **Settings → Actions → General**, permite todas las acciones.
-2. En **Settings → Pages**, elige **Source: GitHub Actions** (no "Deploy from a branch").
-3. En la pestaña **Actions**, ejecuta **Deploy to GitHub Pages** (o haz push a `main`).
-
-Para el sitio en la raíz (`https://eliaschampi.github.io/`), renombra el repositorio a **`eliaschampi.github.io`**; el flujo de trabajo se adapta solo. Con un **dominio propio** tampoco requiere cambios: la base sigue en la raíz.
-
-### Otros hosts
-
-El build es 100% estático (`adapter-static`, todas las rutas prerenderizadas): sirve `build/` desde Netlify, Vercel, Cloudflare Pages o cualquier hosting de archivos. En despliegue estático el endpoint `/api/workspaces` entrega el catálogo prerenderizado; la búsqueda remota filtra en el servidor solo en entornos con funciones (dev, Node o serverless).
-
-## Estructura
-
-```
-src/
-├── app.html                     # viewport-fit=cover, idioma es
-├── lib/
-│   ├── color-scheme.svelte.ts   # preferencia system/light/dark persistente
-│   ├── navigation.ts            # secciones del showcase
-│   ├── navigation-mode.svelte.ts# densidad del sidebar compartida
-│   └── paths.ts                 # helpers base-aware para GitHub Pages
-└── routes/
-    ├── +layout.svelte           # shell: Sidebar + Navbar + contenido
-    ├── +page.svelte             # inicio
-    ├── components/ forms/ data/ settings/
-    └── api/workspaces/          # endpoint de RemoteSelect ({ items })
+```bash
+pnpm list @lumi-ui/svelte
+# Después de revisar las notas de migración:
+pnpm update @lumi-ui/svelte --latest
+pnpm run lint
+pnpm run check
+pnpm run build
 ```
 
-## Reglas del showcase
+`private: true` evita publicar el sitio como otro paquete npm. El código del sitio es público y tiene licencia MIT; el paquete distribuido es `@lumi-ui/svelte`.
 
-- Svelte 5 Runes únicamente.
-- Componentes importados desde `@lumi-ui/svelte`; un solo import global de estilos.
-- Composición exclusiva con clases públicas de `core.css` y `patterns.css`.
-- Cero `<style>` local, colores crudos o frameworks CSS: solo tokens `--lumi-*`.
+## Publicación
 
-## Licencia
+[GitHub Actions](./.github/workflows/deploy.yml) valida formato, tipos y build en los pull requests. Los pushes a `main` y las ejecuciones manuales también publican en Pages. Los pull requests no despliegan.
 
-[MIT](./LICENSE) © Elias Champi
+En **Settings → Pages**, selecciona **Source: GitHub Actions**. El workflow obtiene de Pages la base y URL reales; también funcionan un cambio de nombre del repositorio o un dominio personalizado. No requiere un backend.
+
+Para verificar localmente la ruta de producción:
+
+```bash
+PAGES_BASE_PATH=/lumi pnpm run build
+PAGES_BASE_PATH=/lumi pnpm run preview
+# Abrir http://localhost:4173/lumi/
+```
+
+En otros hosts estáticos, sirve `build/`. Para construir en una base o dominio diferentes, declara `PAGES_BASE_PATH` y `PAGES_SITE_URL` antes del build; esta última define las URLs canónicas y los metadatos para compartir.
+
+## Estructura y responsabilidades
+
+```text
+.github/workflows/deploy.yml   Validación y publicación en GitHub Pages
+src/app.html                  Documento base, idioma y favicon
+src/lib/
+  navigation.ts               Única fuente de secciones y descripciones
+  site.ts                     Enlaces públicos y metadatos de la biblioteca
+  paths.ts                    Rutas internas resueltas por SvelteKit
+  color-scheme.svelte.ts       Preferencia de tema de este sitio
+  navigation-mode.svelte.ts   Densidad de navegación durante la visita
+  CodeBlock.svelte            Código seleccionable, copia y feedback
+  QuickStartDemo.svelte       Ejemplo inicial y fuente del código mostrado
+  code-examples.ts            Ejemplos autocontenidos para la documentación
+src/routes/
+  +layout.svelte              Shell, navegación, metadatos y pie de página
+  +layout.ts                  Prerender estático
+  +page.svelte                Presentación de la biblioteca
+  getting-started/            Guía de inicio
+  components/                 Galería interactiva por familias
+  forms/ data/ settings/      Composiciones y apariencia
+static/                       Recursos locales de demostración
+```
+
+Usamos Svelte 5 runes, TypeScript estricto y componentes, clases y tokens públicos de Lumi. No copiamos componentes internos de la biblioteca ni añadimos otro sistema CSS. El código del ejemplo inicial se importa como texto desde su componente real para evitar que la vista previa y el ejemplo diverjan.
+
+## Contribuciones y licencia
+
+Para mejorar este sitio, consulta [CONTRIBUTING.md](./CONTRIBUTING.md). Para cambiar un componente, token o contrato público, contribuye en [lumi-ui](https://github.com/eliaschampi/lumi-ui).
+
+[MIT](./LICENSE) © Elias Champi.

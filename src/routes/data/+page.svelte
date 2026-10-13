@@ -10,6 +10,7 @@
 		type ChartSeriesPoint,
 		type DashboardChartSeries
 	} from '@lumi-ui/svelte';
+	import { repositoryUrl } from '$lib/site';
 
 	type RecordStatus = 'active' | 'pending' | 'paused';
 
@@ -76,10 +77,17 @@
 <div class="lumi-stack lumi-stack--xl lumi-min-width--0">
 	<PageHeader
 		title="Datos"
-		subtitle="Tablas tipadas, selección, paginación y gráficos responsive"
+		subtitle="Busca, selecciona y pagina una tabla con gráficos de ejemplo."
+		level={1}
 		icon="chartBar"
 		size="xl"
 	/>
+	<p class="lumi-text--sm lumi-text--muted">
+		Los nombres, importes y métricas son ficticios. <a
+			href={`${repositoryUrl}/blob/main/src/routes/data/+page.svelte`}
+			class="lumi-text--primary">Ver código completo</a
+		>.
+	</p>
 
 	<div class="lumi-grid lumi-grid--auto-fit lumi-grid--gap-md">
 		<StatCard title="Registros" value={records.length} icon="list" color="primary" />
@@ -122,7 +130,7 @@
 	</div>
 
 	<DashboardSection
-		title="Workspaces"
+		title="Espacios de trabajo"
 		subtitle="Listado local con búsqueda, selección y paginación"
 		icon="building2"
 	>
@@ -136,11 +144,11 @@
 			hover
 			stripe
 			bind:selected={selectedRecords}
-			searchPlaceholder="Buscar workspace"
-			aria-label="Workspaces de demostración"
+			searchPlaceholder="Buscar espacio de trabajo"
+			aria-label="Espacios de trabajo de demostración"
 		>
 			{#snippet thead()}
-				<th>Workspace</th>
+				<th>Espacio de trabajo</th>
 				<th>Responsable</th>
 				<th>Estado</th>
 				<th>Valor</th>
