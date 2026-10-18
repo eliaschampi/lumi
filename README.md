@@ -7,10 +7,10 @@ Lumi UI es una biblioteca open source de componentes **Svelte 5**, contratos Typ
 ## Usar Lumi en tu aplicación
 
 ```bash
-pnpm add @lumi-ui/svelte
+pnpm add @lumi-ui/svelte @lucide/svelte
 ```
 
-Importa los estilos una sola vez en la raíz de tu aplicación:
+Importa los estilos una sola vez en la raíz de tu aplicación. Los iconos se pasan como componentes de `@lucide/svelte`; las clases de `@lumi-ui/svelte/styles/patterns.css` se importan solo en las páginas que las usan.
 
 ```svelte
 <script lang="ts">
@@ -67,7 +67,7 @@ El servidor abre en `http://localhost:5174`. Comandos disponibles:
 
 ### Versión de la biblioteca
 
-`pnpm-lock.yaml` fija la versión instalada. El sitio lee su versión y requisito de Svelte desde el `package.json` de ese paquete al compilar; no mantiene una segunda versión manual en la interfaz.
+`pnpm-lock.yaml` fija la versión instalada. Tras migrar a `^1.0.0`, regenera el lockfile con `pnpm install` en cuanto la versión 1.0 esté publicada en npm; hasta entonces `pnpm install --frozen-lockfile` falla porque el lockfile aún describe la 0.5. El sitio lee su versión y requisito de Svelte desde el `package.json` de ese paquete al compilar; no mantiene una segunda versión manual en la interfaz.
 
 ```bash
 pnpm list @lumi-ui/svelte
@@ -102,25 +102,26 @@ En otros hosts estáticos, sirve `build/`. Para construir en una base o dominio 
 .github/workflows/deploy.yml   Validación y publicación en GitHub Pages
 src/app.html                  Documento base, idioma y favicon
 src/lib/
-  navigation.ts               Única fuente de secciones y descripciones
-  site.ts                     Enlaces públicos y metadatos de la biblioteca
-  paths.ts                    Rutas internas resueltas por SvelteKit
+  navigation.ts               Única fuente de secciones, rutas e iconos
+  site.ts                     Enlaces públicos, versión y configuración regional
+  demo.ts                     Datos ficticios compartidos por las demostraciones
+  toaster.ts                  Instancia única de notificaciones del sitio
   color-scheme.svelte.ts       Preferencia de tema de este sitio
   navigation-mode.svelte.ts   Densidad de navegación durante la visita
   CodeBlock.svelte            Código seleccionable, copia y feedback
-  QuickStartDemo.svelte       Ejemplo inicial y fuente del código mostrado
-  code-examples.ts            Ejemplos autocontenidos para la documentación
+  InstallCommand.svelte       Comando de instalación por gestor de paquetes
+  examples/                   Ejemplos reales: se muestran como texto (?raw) y svelte-check los valida
 src/routes/
   +layout.svelte              Shell, navegación, metadatos y pie de página
   +layout.ts                  Prerender estático
   +page.svelte                Presentación de la biblioteca
   getting-started/            Guía de inicio
-  components/                 Galería interactiva por familias
+  components/                 Galería interactiva por familias (families/)
   forms/ data/ settings/      Composiciones y apariencia
 static/                       Recursos locales de demostración
 ```
 
-Usamos Svelte 5 runes, TypeScript estricto y componentes, clases y tokens públicos de Lumi. No copiamos componentes internos de la biblioteca ni añadimos otro sistema CSS. El código del ejemplo inicial se importa como texto desde su componente real para evitar que la vista previa y el ejemplo diverjan.
+Usamos Svelte 5 runes, TypeScript estricto y componentes, clases y tokens públicos de Lumi. No copiamos componentes internos de la biblioteca ni añadimos otro sistema CSS. Cada ejemplo de código se importa como texto desde un componente real en `src/lib/examples/`, así la vista previa, el código mostrado y la API de la biblioteca no divergen.
 
 ## Contribuciones y licencia
 
