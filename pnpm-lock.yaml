@@ -8,9 +8,12 @@ importers:
 
   .:
     dependencies:
+      '@lucide/svelte':
+        specifier: ^1.59.0
+        version: 1.59.0(svelte@5.57.2)
       '@lumi-ui/svelte':
-        specifier: ^0.5.0
-        version: 0.5.0(svelte@5.57.2)
+        specifier: ^1.0.0
+        version: 1.0.0(svelte@5.57.2)
     devDependencies:
       '@sveltejs/adapter-static':
         specifier: ^3.0.10
@@ -67,13 +70,13 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@lucide/svelte@1.55.0':
-    resolution: {integrity: sha512-CTxJ3qbkDK2oCW1VJYKhqAUfOongRJqc9YWmJZn8E06QpCU7i5yAnUny4h/zMNy/iYpMtGiJDRSb6AVIornuXg==}
+  '@lucide/svelte@1.59.0':
+    resolution: {integrity: sha512-ga9IrEsFJBkt/34VnRFcQ2HLs8eOpOovXZ62XzwfC7f0zBfo4y116FBIDroZkD0gInYYY2hSSAcsQEm/Vm+AoA==}
     peerDependencies:
       svelte: ^5
 
-  '@lumi-ui/svelte@0.5.0':
-    resolution: {integrity: sha512-PIdw+7PM+ItoFBRuV26b8t5fshJOEHbzAZDJIYzwByfA6wo2ev1RaUn/8r8OVPAVPbu/+a6kggXiHeyk2aO4+g==}
+  '@lumi-ui/svelte@1.0.0':
+    resolution: {integrity: sha512-5OROEmohuFvVo8tKsCSXaOdJqxCUjFMh6XaIDz+YU6CilpPa6JItgWezII61XqR/Id3KUWkSPfHmHRMtVaK9GQ==}
     peerDependencies:
       svelte: ^5.56.4
 
@@ -553,14 +556,15 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
-  '@lucide/svelte@1.55.0(svelte@5.57.2)':
+  '@lucide/svelte@1.59.0(svelte@5.57.2)':
     dependencies:
       svelte: 5.57.2
 
-  '@lumi-ui/svelte@0.5.0(svelte@5.57.2)':
+  '@lumi-ui/svelte@1.0.0(svelte@5.57.2)':
     dependencies:
       '@floating-ui/dom': 1.8.0
-      '@lucide/svelte': 1.55.0(svelte@5.57.2)
+      '@lucide/svelte': 1.59.0(svelte@5.57.2)
+      esm-env: 1.2.2
       svelte: 5.57.2
 
   '@oxc-project/types@0.153.0': {}
