@@ -1,5 +1,15 @@
 <script lang="ts">
+	import Activity from '@lucide/svelte/icons/activity';
+	import Building2 from '@lucide/svelte/icons/building-2';
+	import ChartBar from '@lucide/svelte/icons/chart-bar';
+	import CircleCheck from '@lucide/svelte/icons/circle-check';
+	import List from '@lucide/svelte/icons/list';
+	import RefreshCw from '@lucide/svelte/icons/refresh-cw';
+	import TrendingUp from '@lucide/svelte/icons/trending-up';
+	import Wallet from '@lucide/svelte/icons/wallet';
+	import { onDestroy } from 'svelte';
 	import {
+		Button,
 		Chip,
 		DashboardBarChart,
 		DashboardChart,
@@ -7,135 +17,153 @@
 		PageHeader,
 		StatCard,
 		Table,
+		ToggleGroup,
+		formatNumber,
 		type ChartSeriesPoint,
-		type DashboardChartSeries
+		type DashboardChartSeries,
+		type ToggleGroupValue
 	} from '@lumi-ui/svelte';
-	import { repositoryUrl } from '$lib/site';
+	import '@lumi-ui/svelte/styles/patterns.css';
+	import {
+		MONTHLY_REVENUE,
+		PREVIOUS_PERIOD_GAP,
+		SIMULATED_LATENCY_MS,
+		WORKSPACES,
+		WORKSPACE_STATUS,
+		WORKSPACE_STATUSES,
+		type Workspace
+	} from '$lib/demo';
+	import { siteLocale, sourceUrl } from '$lib/site';
+	import { toaster } from '$lib/toaster';
 
-	type RecordStatus = 'active' | 'pending' | 'paused';
+	const STATUS_FILTERS = WORKSPACE_STATUSES.map((value) => ({
+		value,
+		label: WORKSPACE_STATUS[value].label
+	}));
 
-	interface DemoRecord {
-		id: number;
-		name: string;
-		owner: string;
-		status: RecordStatus;
-		value: number;
-	}
-
-	const records: DemoRecord[] = [
-		{ id: 1, name: 'Atlas Workspace', owner: 'Ana Torres', status: 'active', value: 12400 },
-		{ id: 2, name: 'Northwind Lab', owner: 'Bruno Díaz', status: 'pending', value: 8900 },
-		{ id: 3, name: 'Nexus Portal', owner: 'Carla Ruiz', status: 'active', value: 17250 },
-		{ id: 4, name: 'Orbit Studio', owner: 'Diego Silva', status: 'paused', value: 6300 },
-		{ id: 5, name: 'Vertex Cloud', owner: 'Elena Paz', status: 'active', value: 21100 },
-		{ id: 6, name: 'Pulse Center', owner: 'Fabio León', status: 'pending', value: 9800 }
-	];
-
-	const revenue: ChartSeriesPoint[] = [
-		{ key: 'jan', label: 'Ene', value: 18 },
-		{ key: 'feb', label: 'Feb', value: 25 },
-		{ key: 'mar', label: 'Mar', value: 23 },
-		{ key: 'apr', label: 'Abr', value: 31 },
-		{ key: 'may', label: 'May', value: 38 },
-		{ key: 'jun', label: 'Jun', value: 44 }
-	];
-
-	const chartSeries: DashboardChartSeries[] = [
-		{
-			key: 'current',
-			label: 'Periodo actual',
-			color: 'primary',
-			data: revenue
-		},
+	const TREND: DashboardChartSeries[] = [
+		{ key: 'current', label: 'Periodo actual', color: 'primary', data: [...MONTHLY_REVENUE] },
 		{
 			key: 'previous',
 			label: 'Periodo anterior',
 			color: 'secondary',
-			data: revenue.map((point) => ({ ...point, value: Math.max(0, point.value - 7) }))
+			data: MONTHLY_REVENUE.map((point) => ({
+				...point,
+				value: Math.max(0, point.value - PREVIOUS_PERIOD_GAP)
+			}))
 		}
 	];
 
-	let selectedRecords = $state<DemoRecord[]>([]);
+	const VALUE_BY_WORKSPACE: ChartSeriesPoint[] = WORKSPACES.map((workspace) => ({
+		key: String(workspace.id),
+		label: workspace.name,
+		value: workspace.value
+	}));
 
-	function statusLabel(status: RecordStatus): string {
-		return status === 'active' ? 'Activo' : status === 'pending' ? 'Pendiente' : 'Pausado';
-	}
+	const totalValue = WORKSPACES.reduce((sum, workspace) => sum + workspace.value, 0);
+	const activeCount = WORKSPACES.filter((workspace) => workspace.status === 'active').length;
 
-	function statusColor(status: RecordStatus): 'success' | 'warning' | 'secondary' {
-		return status === 'active' ? 'success' : status === 'pending' ? 'warning' : 'secondary';
-	}
+	let statusFilter = $state<ToggleGroupValue[]>([]);
+	let selected = $state<Workspace[]>([]);
+	let loading = $state(false);
+	let refreshTimer: ReturnType<typeof setTimeout> | undefined;
 
-	function formatCurrency(value: number): string {
-		return new Intl.NumberFormat('es-PE', {
+	// Sin estados pulsados no se filtra: la tabla muestra todos los registros.
+	const visibleRecords = $derived(
+		statusFilter.length === 0
+			? [...WORKSPACES]
+			: WORKSPACES.filter((workspace) => statusFilter.includes(workspace.status))
+	);
+
+	function currency(value: number): string {
+		return formatNumber(value, {
+			locale: siteLocale.locale,
 			style: 'currency',
-			currency: 'PEN',
+			currency: siteLocale.currency,
 			maximumFractionDigits: 0
-		}).format(value);
+		});
 	}
+
+	/** Simula una recarga para mostrar las filas skeleton de la tabla. */
+	function refresh(): void {
+		loading = true;
+		clearTimeout(refreshTimer);
+		refreshTimer = setTimeout(() => {
+			loading = false;
+			toaster.show({ title: 'Datos actualizados', color: 'info' });
+		}, SIMULATED_LATENCY_MS);
+	}
+
+	onDestroy(() => clearTimeout(refreshTimer));
 </script>
 
 <div class="lumi-stack lumi-stack--xl lumi-min-width--0">
 	<PageHeader
 		title="Datos"
-		subtitle="Busca, selecciona y pagina una tabla con gráficos de ejemplo."
-		level={1}
-		icon="chartBar"
+		subtitle="Busca, filtra, selecciona y pagina una tabla junto a gráficos de ejemplo."
+		icon={ChartBar}
 		size="xl"
-	/>
-	<p class="lumi-text--sm lumi-text--muted">
-		Los nombres, importes y métricas son ficticios. <a
-			href={`${repositoryUrl}/blob/main/src/routes/data/+page.svelte`}
-			class="lumi-text--primary">Ver código completo</a
+	>
+		{#snippet actions()}
+			<Button variant="border" icon={RefreshCw} {loading} onclick={refresh}>Actualizar</Button>
+		{/snippet}
+	</PageHeader>
+	<p class="lumi-text--sm lumi-text--muted lumi-margin--none">
+		Los nombres, importes y métricas son ficticios.
+		<a href={sourceUrl('src/routes/data/+page.svelte')} class="lumi-text--primary"
+			>Ver código completo</a
 		>.
 	</p>
 
-	<div class="lumi-grid lumi-grid--auto-fit lumi-grid--gap-md">
-		<StatCard title="Registros" value={records.length} icon="list" color="primary" />
-		<StatCard
-			title="Activos"
-			value={records.filter((item) => item.status === 'active').length}
-			icon="activity"
-			color="success"
-		/>
-		<StatCard
-			title="Seleccionados"
-			value={selectedRecords.length}
-			icon="checkCircle"
-			color="secondary"
-		/>
-		<StatCard
-			title="Valor total"
-			value={formatCurrency(records.reduce((sum, item) => sum + item.value, 0))}
-			icon="wallet"
-			color="info"
-		/>
+	<div class="lumi-grid lumi-grid--columns-2 lumi-grid--columns-4-lg lumi-grid--gap-md">
+		<StatCard title="Registros" value={WORKSPACES.length} icon={List} color="primary" />
+		<StatCard title="Activos" value={activeCount} icon={Activity} color="success" />
+		<StatCard title="Seleccionados" value={selected.length} icon={CircleCheck} color="secondary" />
+		<StatCard title="Valor total" value={currency(totalValue)} icon={Wallet} color="info" />
 	</div>
 
 	<div class="lumi-dashboard-analytics-grid">
-		<DashboardSection title="Evolución" subtitle="Comparación entre periodos" icon="trendingUp">
+		<DashboardSection
+			title="Evolución"
+			subtitle="Ingresos mensuales, en miles de soles"
+			icon={TrendingUp}
+		>
 			<DashboardChart
-				series={chartSeries}
+				series={TREND}
 				valueFormat="number"
-				aria-label="Comparación mensual entre periodos"
+				aria-label="Comparación mensual de ingresos entre periodos"
 			/>
 		</DashboardSection>
 
-		<DashboardSection title="Distribución" subtitle="Volumen del periodo actual" icon="chartBar">
+		<DashboardSection
+			title="Valor por espacio"
+			subtitle="Importe actual de cada espacio"
+			icon={ChartBar}
+		>
 			<DashboardBarChart
-				data={revenue}
+				data={VALUE_BY_WORKSPACE}
 				color="secondary"
-				aria-label="Distribución mensual del periodo actual"
+				valueFormat="currency"
+				aria-label="Valor actual por espacio de trabajo"
 			/>
 		</DashboardSection>
 	</div>
 
 	<DashboardSection
 		title="Espacios de trabajo"
-		subtitle="Listado local con búsqueda, selección y paginación"
-		icon="building2"
+		subtitle="Listado local con búsqueda, filtros, selección y paginación"
+		icon={Building2}
 	>
+		{#snippet actions()}
+			<ToggleGroup
+				bind:value={statusFilter}
+				options={STATUS_FILTERS}
+				size="sm"
+				aria-label="Filtrar por estado"
+			/>
+		{/snippet}
 		<Table
-			data={records}
+			data={visibleRecords}
 			rowKey={(row) => row.id}
 			search
 			selectable
@@ -143,22 +171,27 @@
 			itemsPerPage={4}
 			hover
 			stripe
-			bind:selected={selectedRecords}
+			{loading}
+			bind:selected
 			searchPlaceholder="Buscar espacio de trabajo"
 			aria-label="Espacios de trabajo de demostración"
 		>
 			{#snippet thead()}
-				<th>Espacio de trabajo</th>
-				<th>Responsable</th>
-				<th>Estado</th>
-				<th>Valor</th>
+				<th scope="col">Espacio de trabajo</th>
+				<th scope="col">Responsable</th>
+				<th scope="col">Estado</th>
+				<th scope="col" class="lumi-text--right">Valor</th>
 			{/snippet}
 
 			{#snippet row({ row })}
 				<td class="lumi-font--medium">{row.name}</td>
 				<td>{row.owner}</td>
-				<td><Chip color={statusColor(row.status)} size="sm">{statusLabel(row.status)}</Chip></td>
-				<td>{formatCurrency(row.value)}</td>
+				<td
+					><Chip color={WORKSPACE_STATUS[row.status].color} size="sm"
+						>{WORKSPACE_STATUS[row.status].label}</Chip
+					></td
+				>
+				<td class="lumi-text--right">{currency(row.value)}</td>
 			{/snippet}
 		</Table>
 	</DashboardSection>
