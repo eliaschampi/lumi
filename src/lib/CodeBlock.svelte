@@ -1,33 +1,61 @@
 <script lang="ts">
+	import Copy from '@lucide/svelte/icons/copy';
 	import { Button } from '@lumi-ui/svelte';
+	import { toaster } from '$lib/toaster';
 
-	const { code, label = 'Código' }: { code: string; label?: string } = $props();
-	let status = $state('');
+	interface Props {
+		code: string;
+		/** Nombre visible del bloque; también nombra la región desplazable. */
+		label?: string;
+	}
+
+	const { code, label = 'Código' }: Props = $props();
 
 	async function copy(): Promise<void> {
 		try {
 			await navigator.clipboard.writeText(code);
-			status = 'Código copiado.';
+			toaster.show({ title: 'Código copiado', message: label, color: 'success' });
 		} catch {
-			status = 'No se pudo copiar. Puedes seleccionar el código y copiarlo manualmente.';
+			toaster.show({
+				title: 'No se pudo copiar',
+				message: 'Selecciona el código y cópialo manualmente.',
+				color: 'warning'
+			});
 		}
 	}
 </script>
 
-<div class="lumi-stack lumi-stack--sm lumi-min-width--0">
-	<div
-		class="lumi-flex lumi-flex--wrap lumi-justify--between lumi-align-items--center lumi-flex--gap-sm"
+<figure class="code-block lumi-stack lumi-stack--xs lumi-min-width--0 lumi-margin--none">
+	<figcaption
+		class="lumi-flex lumi-justify--between lumi-align-items--center lumi-flex--gap-sm lumi-min-width--0"
 	>
-		<span class="lumi-text--sm lumi-font--medium">{label}</span>
-		<Button variant="border" size="sm" icon="copy" aria-label={`Copiar ${label}`} onclick={copy}>
+		<span class="lumi-text--sm lumi-font--medium lumi-text-ellipsis">{label}</span>
+		<Button variant="ghost" size="sm" icon={Copy} aria-label={`Copiar ${label}`} onclick={copy}>
 			Copiar
 		</Button>
-	</div>
-	<!-- svelte-ignore a11y_no_noninteractive_tabindex (La región desplazable necesita foco para permitir desplazamiento con teclado.) -->
+	</figcaption>
+	<!-- svelte-ignore a11y_no_noninteractive_tabindex (La región desplazable necesita foco para desplazarse con teclado.) -->
 	<pre
+		class="lumi-padding--md lumi-margin--none lumi-text--sm"
 		role="region"
-		class="lumi-overflow-x-auto lumi-padding--md lumi-bg--control lumi-text--sm lumi-margin--none"
 		tabindex="0"
 		aria-label={label}><code>{code}</code></pre>
-	<p role="status" class="lumi-text--sm lumi-text--muted lumi-margin--none">{status}</p>
-</div>
+</figure>
+
+<style>
+	/* Composición propia con tokens públicos: la biblioteca no ofrece un bloque de código. */
+	pre {
+		overflow-x: auto;
+		tab-size: 2;
+		font-family: var(--lumi-font-family-mono);
+		line-height: var(--lumi-line-height-relaxed);
+		border-radius: var(--lumi-radius-panel);
+		border: var(--lumi-border-width-thin) solid var(--lumi-color-border-glass);
+		background: var(--lumi-scroll-well-bg);
+	}
+
+	pre:focus-visible {
+		outline: var(--lumi-focus-outline);
+		outline-offset: var(--lumi-focus-outline-offset);
+	}
+</style>
