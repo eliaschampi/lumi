@@ -12,8 +12,8 @@ importers:
         specifier: ^1.59.0
         version: 1.59.0(svelte@5.57.2)
       '@lumi-ui/svelte':
-        specifier: ^1.0.0
-        version: 1.0.0(svelte@5.57.2)
+        specifier: ^1.1.0
+        version: 1.1.0(svelte@5.57.2)
     devDependencies:
       '@sveltejs/adapter-static':
         specifier: ^3.0.10
@@ -75,8 +75,8 @@ packages:
     peerDependencies:
       svelte: ^5
 
-  '@lumi-ui/svelte@1.0.0':
-    resolution: {integrity: sha512-5OROEmohuFvVo8tKsCSXaOdJqxCUjFMh6XaIDz+YU6CilpPa6JItgWezII61XqR/Id3KUWkSPfHmHRMtVaK9GQ==}
+  '@lumi-ui/svelte@1.1.0':
+    resolution: {integrity: sha512-71nCVrCJZYuF8pklQpJq1uVD+R9v1qBnx+a3kvbXYtZHPiHO0g8qQs492AQQ7moHbnxK6zBnN9DJ2d5qWSjFYg==}
     peerDependencies:
       svelte: ^5.56.4
 
@@ -560,7 +560,7 @@ snapshots:
     dependencies:
       svelte: 5.57.2
 
-  '@lumi-ui/svelte@1.0.0(svelte@5.57.2)':
+  '@lumi-ui/svelte@1.1.0(svelte@5.57.2)':
     dependencies:
       '@floating-ui/dom': 1.8.0
       '@lucide/svelte': 1.59.0(svelte@5.57.2)
