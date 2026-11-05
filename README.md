@@ -38,7 +38,7 @@ El sitio está en inglés en la raíz y en español bajo `/es`.
 | ----------- | -------------------------------------------------------------------------- |
 | Inicio      | Qué ofrece Lumi, instalación y una primera interacción                     |
 | Empezar     | Estilos, ejemplo copiable y control de apariencia                          |
-| Fundamentos | Colores y layout, con los roles y clases de uso diario                     |
+| Fundamentos | Colores, tipografía y layout, con los roles y clases de uso diario         |
 | Componentes | Catálogo y una página por componente: cuándo usarlo, demos, código y props |
 | Recetas     | Un formulario y una página de datos completos                              |
 | Apariencia  | Tema persistente y navegación compacta durante la visita                   |

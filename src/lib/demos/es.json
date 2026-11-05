@@ -286,5 +286,17 @@
 	"Online": "En línea",
 	"Reconnecting": "Reconectando",
 	"Offline": "Sin conexión",
-	"Lumi logo": "Logo de Lumi"
+	"Lumi logo": "Logo de Lumi",
+	"Extra small: dates and captions": "Extra pequeño: fechas y pies de texto",
+	"Small: tables, hints and secondary text": "Pequeño: tablas, ayudas y texto secundario",
+	"Base: reading text, with no class at all": "Base: texto de lectura, sin ninguna clase",
+	"Large: introductions": "Grande: introducciones",
+	"Extra large: short highlights": "Extra grande: destacados breves",
+	"2xl: key figures": "2xl: cifras clave",
+	"4xl: one big number": "4xl: una cifra grande",
+	"Regular: running text": "Regular: texto corrido",
+	"Medium: labels and table names": "Medium: etiquetas y nombres en tablas",
+	"Semibold: small headings": "Semibold: encabezados pequeños",
+	"Bold: strong emphasis": "Bold: énfasis fuerte",
+	"Something went wrong": "Algo salió mal"
 }

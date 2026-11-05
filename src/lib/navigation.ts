@@ -61,6 +61,7 @@ import Ellipsis from '@lucide/svelte/icons/ellipsis';
 import PanelLeft from '@lucide/svelte/icons/panel-left';
 import PanelRight from '@lucide/svelte/icons/panel-right';
 import Zap from '@lucide/svelte/icons/zap';
+import Type from '@lucide/svelte/icons/type';
 import type { IconComponent } from '@lumi-ui/svelte';
 import type { Lang, SitePath, Text } from '$lib/i18n';
 
@@ -375,6 +376,15 @@ export const NAVIGATION: readonly NavEntry[] = [
 				description: {
 					en: 'The six color roles, what each one means, and how to use them in components and CSS.',
 					es: 'Los seis roles de color, qué significa cada uno y cómo usarlos en componentes y CSS.'
+				}
+			},
+			{
+				path: '/foundations/typography',
+				label: { en: 'Typography', es: 'Tipografía' },
+				icon: Type,
+				description: {
+					en: 'Sizes, weights and text colors, and which font your app really shows.',
+					es: 'Tamaños, pesos y colores de texto, y qué fuente muestra de verdad tu aplicación.'
 				}
 			},
 			{
