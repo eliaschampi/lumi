@@ -64,10 +64,9 @@
 <style>
 	/* La biblioteca no ofrece un bloque de código: el pozo es suyo, esto es lo propio del código. */
 	pre {
-		/* Sin tope ni `contain`: la rueda sobre el código debe seguir moviendo la página. */
+		/* Sin tope: el código se lee entero, sin un segundo scroll dentro de la página. */
 		max-height: none;
 		overflow-x: auto;
-		overscroll-behavior: auto;
 		tab-size: 2;
 		font-family: var(--lumi-font-family-mono);
 		line-height: var(--lumi-line-height-relaxed);
