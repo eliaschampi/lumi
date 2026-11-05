@@ -2,7 +2,7 @@
 	import { Button } from '@lumi-ui/svelte';
 </script>
 
-<details class="lumi-stack lumi-stack--sm">
+<details>
 	<Button summary variant="border">More options</Button>
 	<p class="lumi-text--muted lumi-margin-top--sm">This opens without any JavaScript.</p>
 </details>

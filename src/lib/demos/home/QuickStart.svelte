@@ -23,7 +23,15 @@
 			required
 			clearable
 		/>
-		<Button type="submit" variant="filled" icon={Check} disabled={!name.trim()}>Try it</Button>
+		<Button
+			type="submit"
+			variant="filled"
+			icon={Check}
+			class="lumi-width--full"
+			disabled={!name.trim()}
+		>
+			Try it
+		</Button>
 		{#if saved}
 			<Alert color="success" title="It works!" closable bind:active={saved}>{message}</Alert>
 		{/if}

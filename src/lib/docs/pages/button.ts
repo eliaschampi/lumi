@@ -56,6 +56,15 @@ export default {
 			demo: 'Sizes'
 		},
 		{
+			id: 'width',
+			title: { en: 'Width', es: 'Ancho' },
+			text: {
+				en: 'A button is as wide as its label. A lumi-stack or a spaced Card stretches its children, which is right for fields but rarely for buttons, so put the button in a lumi-flex row. When full width is what you want, as in a sign-in form, say so with lumi-width--full.',
+				es: 'Un botón mide lo que su etiqueta. Un lumi-stack o una Card con spaced estiran a sus hijos, lo que va bien en campos pero rara vez en botones, así que pon el botón en una fila lumi-flex. Cuando sí quieras todo el ancho, como en un formulario de acceso, decláralo con lumi-width--full.'
+			},
+			demo: 'Width'
+		},
+		{
 			id: 'icons',
 			title: { en: 'Icons', es: 'Iconos' },
 			text: {

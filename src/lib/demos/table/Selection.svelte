@@ -25,5 +25,7 @@
 			<td>{row.name}</td>
 		{/snippet}
 	</Table>
-	<Button variant="border" size="sm" disabled={!selected.length}>Export selected</Button>
+	<div class="lumi-flex lumi-justify--end">
+		<Button variant="border" size="sm" disabled={!selected.length}>Export selected</Button>
+	</div>
 </div>

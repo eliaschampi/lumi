@@ -15,5 +15,7 @@
 		<Alert color="danger">{error}</Alert>
 	{/if}
 	<Input label="Email" type="email" placeholder="you@example.com" />
-	<Button type="submit" variant="filled">Sign in</Button>
+	<div class="lumi-flex lumi-justify--end">
+		<Button type="submit" variant="filled">Sign in</Button>
+	</div>
 </form>

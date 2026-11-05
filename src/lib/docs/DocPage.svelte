@@ -89,7 +89,7 @@
 					<p class="lumi-text--muted lumi-margin--none">{section.text}</p>
 				</div>
 				{#if Demo}
-					<Card spaced><Demo /></Card>
+					<Card><Demo /></Card>
 				{/if}
 				{#if section.code}
 					<CodeBlock code={section.code} label={`${section.demo}.svelte`} />

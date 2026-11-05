@@ -30,8 +30,8 @@ export default {
 			id: 'stack',
 			title: { en: 'Stack: one under another', es: 'Stack: una cosa bajo otra' },
 			text: {
-				en: 'Use lumi-stack with a size from 2xs to xl. Sizes also set the rhythm of a page: sm or md inside a block, lg or xl between sections.',
-				es: 'Usa lumi-stack con un tamaño de 2xs a xl. Los tamaños también marcan el ritmo de una página: sm o md dentro de un bloque, lg o xl entre secciones.'
+				en: 'Use lumi-stack with a size from 2xs to xl. Sizes also set the rhythm of a page: sm or md inside a block, lg or xl between sections. A stack stretches its children, so fields fill the width. Keep a button at its own width with a lumi-flex row, as in this form.',
+				es: 'Usa lumi-stack con un tamaño de 2xs a xl. Los tamaños también marcan el ritmo de una página: sm o md dentro de un bloque, lg o xl entre secciones. Un stack estira a sus hijos, así los campos ocupan todo el ancho. Deja un botón con su propio ancho usando una fila lumi-flex, como en este formulario.'
 			},
 			demo: 'Stack'
 		},
