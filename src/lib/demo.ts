@@ -3,6 +3,7 @@
  * evita listas divergentes entre páginas; ningún dato sale del navegador.
  */
 import type { ChartSeriesPoint, LumiColor } from '@lumi-ui/svelte';
+import type { Lang, Text } from '$lib/i18n';
 
 export type WorkspaceStatus = 'active' | 'pending' | 'paused';
 
@@ -11,15 +12,14 @@ export interface Workspace {
 	name: string;
 	owner: string;
 	status: WorkspaceStatus;
-	/** Importe en soles. */
 	value: number;
 }
 
 /** Estado de dominio → semántica de Lumi (GUIDE §7: la app mapea su dominio). */
-export const WORKSPACE_STATUS: Record<WorkspaceStatus, { label: string; color: LumiColor }> = {
-	active: { label: 'Activo', color: 'success' },
-	pending: { label: 'Pendiente', color: 'warning' },
-	paused: { label: 'Pausado', color: 'secondary' }
+export const WORKSPACE_STATUS: Record<WorkspaceStatus, { label: Text; color: LumiColor }> = {
+	active: { label: { en: 'Active', es: 'Activo' }, color: 'success' },
+	pending: { label: { en: 'Pending', es: 'Pendiente' }, color: 'warning' },
+	paused: { label: { en: 'Paused', es: 'Pausado' }, color: 'secondary' }
 };
 
 export const WORKSPACE_STATUSES = Object.keys(WORKSPACE_STATUS) as WorkspaceStatus[];
@@ -36,17 +36,20 @@ export const WORKSPACES: readonly Workspace[] = [
 /** Responsables únicos, en el orden de la lista. */
 export const OWNERS = [...new Set(WORKSPACES.map((workspace) => workspace.owner))];
 
-/** Ingresos mensuales en miles de soles. */
-export const MONTHLY_REVENUE: readonly ChartSeriesPoint[] = [
-	{ key: 'jan', label: 'Ene', value: 18 },
-	{ key: 'feb', label: 'Feb', value: 25 },
-	{ key: 'mar', label: 'Mar', value: 23 },
-	{ key: 'apr', label: 'Abr', value: 31 },
-	{ key: 'may', label: 'May', value: 38 },
-	{ key: 'jun', label: 'Jun', value: 44 }
+const MONTHS: readonly { key: string; label: Text; value: number }[] = [
+	{ key: 'jan', label: { en: 'Jan', es: 'Ene' }, value: 18 },
+	{ key: 'feb', label: { en: 'Feb', es: 'Feb' }, value: 25 },
+	{ key: 'mar', label: { en: 'Mar', es: 'Mar' }, value: 23 },
+	{ key: 'apr', label: { en: 'Apr', es: 'Abr' }, value: 31 },
+	{ key: 'may', label: { en: 'May', es: 'May' }, value: 38 },
+	{ key: 'jun', label: { en: 'Jun', es: 'Jun' }, value: 44 }
 ];
 
-/** Diferencia del periodo anterior frente al actual, en miles de soles. */
+/** Ingresos mensuales, en miles. */
+export const monthlyRevenue = (lang: Lang): ChartSeriesPoint[] =>
+	MONTHS.map(({ key, label, value }) => ({ key, label: label[lang], value }));
+
+/** Diferencia del periodo anterior frente al actual, en miles. */
 export const PREVIOUS_PERIOD_GAP = 7;
 
 /** Latencia simulada de las demostraciones que «cargan» o «responden». */

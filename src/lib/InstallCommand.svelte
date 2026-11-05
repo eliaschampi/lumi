@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { SegmentedControl } from '@lumi-ui/svelte';
 	import CodeBlock from '$lib/CodeBlock.svelte';
+	import { currentLang } from '$lib/i18n';
 
 	/** Paquetes a instalar; Lucide es opcional, solo para importar iconos por componente. */
 	const { packages = ['@lumi-ui/svelte'] }: { packages?: readonly string[] } = $props();
@@ -11,6 +12,8 @@
 		{ value: 'yarn', label: 'Yarn' }
 	];
 
+	const ARIA = { en: 'Package manager', es: 'Gestor de paquetes' };
+
 	let manager = $state<string | number>('pnpm');
 	const command = $derived(
 		`${manager === 'npm' ? 'npm install' : `${manager} add`} ${packages.join(' ')}`
@@ -18,6 +21,6 @@
 </script>
 
 <div class="lumi-stack lumi-stack--sm lumi-min-width--0">
-	<SegmentedControl bind:value={manager} options={MANAGERS} aria-label="Gestor de paquetes" />
+	<SegmentedControl bind:value={manager} options={MANAGERS} aria-label={ARIA[currentLang()]} />
 	<CodeBlock code={command} label="Terminal" />
 </div>

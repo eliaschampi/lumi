@@ -2,6 +2,7 @@ import Monitor from '@lucide/svelte/icons/monitor';
 import Moon from '@lucide/svelte/icons/moon';
 import Sun from '@lucide/svelte/icons/sun';
 import type { IconComponent } from '@lumi-ui/svelte';
+import type { Text } from '$lib/i18n';
 import {
 	createColorScheme,
 	parseColorSchemePreference,
@@ -20,17 +21,20 @@ export const colorScheme = createColorScheme(colorSchemeOptions);
 
 export const themeChoices: readonly {
 	value: ColorSchemePreference;
-	label: string;
+	label: Text;
 	icon: IconComponent;
 }[] = [
-	{ value: 'system', label: 'Sistema', icon: Monitor },
-	{ value: 'light', label: 'Claro', icon: Sun },
-	{ value: 'dark', label: 'Oscuro', icon: Moon }
+	{ value: 'system', label: { en: 'System', es: 'Sistema' }, icon: Monitor },
+	{ value: 'light', label: { en: 'Light', es: 'Claro' }, icon: Sun },
+	{ value: 'dark', label: { en: 'Dark', es: 'Oscuro' }, icon: Moon }
 ];
 
-const RESOLVED_LABELS: Record<ResolvedColorScheme, string> = { light: 'Claro', dark: 'Oscuro' };
+const RESOLVED_LABELS: Record<ResolvedColorScheme, Text> = {
+	light: themeChoices[1].label,
+	dark: themeChoices[2].label
+};
 
-export function resolvedThemeLabel(value: ResolvedColorScheme): string {
+export function resolvedThemeLabel(value: ResolvedColorScheme): Text {
 	return RESOLVED_LABELS[value];
 }
 
