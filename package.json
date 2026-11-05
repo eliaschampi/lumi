@@ -3,7 +3,7 @@
 	"version": "0.1.0",
 	"private": true,
 	"type": "module",
-	"description": "Sitio público de Lumi UI: instalación, documentación y ejemplos interactivos de la biblioteca Svelte 5.",
+	"description": "Public site of Lumi UI: bilingual documentation and live examples of the Svelte 5 library.",
 	"license": "MIT",
 	"homepage": "https://eliaschampi.github.io/lumi/",
 	"repository": {

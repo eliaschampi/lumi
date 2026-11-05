@@ -26,8 +26,8 @@
 	closeOnEscape={!saving}
 >
 	<form bind:this={form} class="lumi-stack lumi-stack--md" onsubmit={save}>
-		<Input label="Full name" required />
-		<Input label="Email" type="email" />
+		<Input label="Full name" placeholder="Ana Torres" required />
+		<Input label="Email" type="email" placeholder="you@example.com" />
 	</form>
 
 	{#snippet footer()}

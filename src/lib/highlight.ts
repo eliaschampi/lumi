@@ -1,7 +1,7 @@
 /**
  * Resaltado mínimo de Svelte, TypeScript y CSS. Un solo patrón recorre el código
- * una vez; lo que no coincide queda como texto. Los colores vienen de tokens de
- * Lumi, así que siguen al tema y a la marca sin cargar una biblioteca.
+ * una vez; lo que no coincide queda como texto. Los colores son utilidades de
+ * Lumi, así que siguen al tema y a la marca sin CSS propio ni otra biblioteca.
  */
 const TOKEN = new RegExp(
 	[
@@ -15,6 +15,15 @@ const TOKEN = new RegExp(
 	'g'
 );
 
+const CLASSES: Record<string, string> = {
+	comment: 'lumi-text--muted',
+	string: 'lumi-text--success',
+	tag: 'lumi-text--primary',
+	keyword: 'lumi-text--primary',
+	attr: 'lumi-text--secondary',
+	token: 'lumi-text--info'
+};
+
 const ESCAPES: Record<string, string> = { '&': '&amp;', '<': '&lt;', '>': '&gt;' };
 const escape = (text: string): string => text.replace(/[&<>]/g, (char) => ESCAPES[char]);
 
@@ -24,9 +33,9 @@ export function highlight(code: string): string {
 	let last = 0;
 
 	for (const match of code.matchAll(TOKEN)) {
-		const kind = Object.entries(match.groups ?? {}).find(([, value]) => value !== undefined)?.[0];
+		const kind = Object.keys(CLASSES).find((name) => match.groups?.[name] !== undefined);
 		html += escape(code.slice(last, match.index));
-		html += `<span class="code-${kind}">${escape(match[0])}</span>`;
+		html += `<span class="${CLASSES[kind ?? '']}">${escape(match[0])}</span>`;
 		last = match.index + match[0].length;
 	}
 

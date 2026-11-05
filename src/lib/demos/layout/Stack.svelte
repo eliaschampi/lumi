@@ -3,7 +3,7 @@
 </script>
 
 <form class="lumi-stack lumi-stack--md">
-	<Input label="Full name" />
-	<Input label="Email" type="email" />
+	<Input label="Full name" placeholder="Ana Torres" />
+	<Input label="Email" type="email" placeholder="you@example.com" />
 	<Button type="submit" variant="filled">Create account</Button>
 </form>

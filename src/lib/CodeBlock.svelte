@@ -55,44 +55,22 @@
 	</figcaption>
 	<!-- svelte-ignore a11y_no_noninteractive_tabindex (La región desplazable necesita foco para desplazarse con teclado.) -->
 	<pre
-		class="lumi-padding--md lumi-margin--none lumi-text--sm"
+		class="lumi-scroll-well lumi-margin--none lumi-text--sm"
 		role="region"
 		tabindex="0"
 		aria-label={label}><code>{@html highlight(code)}</code></pre>
 </figure>
 
 <style>
-	/* Composición propia con tokens públicos: la biblioteca no ofrece un bloque de código. */
+	/* La biblioteca no ofrece un bloque de código: el pozo es suyo, esto es lo propio del código. */
 	pre {
+		/* Sin tope ni `contain`: la rueda sobre el código debe seguir moviendo la página. */
+		max-height: none;
 		overflow-x: auto;
+		overscroll-behavior: auto;
 		tab-size: 2;
 		font-family: var(--lumi-font-family-mono);
 		line-height: var(--lumi-line-height-relaxed);
-		border-radius: var(--lumi-radius-panel);
-		border: var(--lumi-border-width-thin) solid var(--lumi-color-border-glass);
-		background: var(--lumi-scroll-well-bg);
-	}
-
-	pre :global(.code-comment) {
-		color: var(--lumi-color-text-muted);
-		font-style: italic;
-	}
-
-	pre :global(.code-string) {
-		color: var(--lumi-color-success);
-	}
-
-	pre :global(.code-tag),
-	pre :global(.code-keyword) {
-		color: var(--lumi-color-primary);
-	}
-
-	pre :global(.code-attr) {
-		color: var(--lumi-color-secondary);
-	}
-
-	pre :global(.code-token) {
-		color: var(--lumi-color-info);
 	}
 
 	pre:focus-visible {

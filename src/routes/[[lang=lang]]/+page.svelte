@@ -22,10 +22,18 @@
 	import type { PageProps } from './$types';
 
 	const { data }: PageProps = $props();
-	const QuickStart = $derived(data.quickStart.component);
+	const QuickStart = $derived(data.QuickStart);
 
 	const ACCENTS: readonly LumiColor[] = ['primary', 'secondary', 'info', 'success', 'warning'];
-	const destinations = NAV_ITEMS.filter((item) => item.path !== '/');
+	const DESTINATIONS = [
+		'/getting-started',
+		'/foundations/colors',
+		'/foundations/layout',
+		'/components',
+		'/forms',
+		'/data'
+	];
+	const destinations = NAV_ITEMS.filter((item) => DESTINATIONS.includes(item.path));
 	const ICONS = [Feather, Languages, Layers];
 
 	const COPY = {
@@ -122,7 +130,7 @@
 		<div class="lumi-stack lumi-stack--md lumi-min-width--0">
 			<QuickStart />
 			<Collapse title={t.showCode}>
-				<CodeBlock code={data.quickStart.code} label="QuickStart.svelte" />
+				<CodeBlock code={data.quickStartCode} label="QuickStart.svelte" />
 			</Collapse>
 		</div>
 	</div>

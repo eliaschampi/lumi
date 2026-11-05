@@ -8,6 +8,7 @@
 
 <Input
 	label="Password"
+	placeholder="At least 8 characters"
 	type={visible ? 'text' : 'password'}
 	actionIcon={visible ? EyeOff : Eye}
 	actionLabel={visible ? 'Hide password' : 'Show password'}

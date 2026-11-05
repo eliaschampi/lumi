@@ -14,6 +14,6 @@
 	{#if error}
 		<Alert color="danger">{error}</Alert>
 	{/if}
-	<Input label="Email" type="email" />
+	<Input label="Email" type="email" placeholder="you@example.com" />
 	<Button type="submit" variant="filled">Sign in</Button>
 </form>

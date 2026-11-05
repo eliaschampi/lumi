@@ -1,9 +1,10 @@
 <script lang="ts">
+	import ChevronDown from '@lucide/svelte/icons/chevron-down';
+	import ChevronUp from '@lucide/svelte/icons/chevron-up';
 	import Languages from '@lucide/svelte/icons/languages';
 	import Sparkles from '@lucide/svelte/icons/sparkles';
 	import X from '@lucide/svelte/icons/x';
 	import { onMount, tick, type Snippet } from 'svelte';
-	import { page } from '$app/state';
 	import {
 		Button,
 		Icon,
@@ -202,7 +203,7 @@
 			>
 				<a
 					href={link('/')}
-					class="brand lumi-flex lumi-align-items--center lumi-flex--gap-sm lumi-min-width--0 lumi-text-decoration--none"
+					class="lumi-flex lumi-align-items--center lumi-flex--gap-sm lumi-min-width--0 lumi-text-decoration--none"
 					aria-label={collapsed ? t.home : undefined}
 					onclick={closeDrawer}
 				>
@@ -228,27 +229,35 @@
 
 		{#each NAVIGATION as entry (isGroup(entry) ? entry.id : entry.path)}
 			{#if isGroup(entry)}
+				{@const open = groupOpen(entry) && !collapsed}
 				<SidebarItem
 					current={collapsed && groupHasPage(entry)}
-					expanded={groupOpen(entry) && !collapsed}
+					expanded={collapsed ? undefined : open}
 					{collapsed}
 					onclick={() => toggleGroup(entry)}
 				>
 					{#snippet icon()}<Icon icon={entry.icon} />{/snippet}
-					{entry.label[lang]}
+					<span class="lumi-sidebar-nav-label">
+						<span>{entry.label[lang]}</span>
+						{#if !collapsed}
+							<Icon icon={open ? ChevronUp : ChevronDown} size="xs" />
+						{/if}
+					</span>
 				</SidebarItem>
-				{#if groupOpen(entry) && !collapsed}
-					{#each entry.items as child (child.path)}
-						<SidebarItem
-							href={link(child.path)}
-							level="sub"
-							class="nav-child"
-							current={child === item}
-							onclick={closeDrawer}
-						>
-							{child.label[lang]}
-						</SidebarItem>
-					{/each}
+				{#if open}
+					<div class="lumi-sidebar-subitems">
+						{#each entry.items as child (child.path)}
+							<SidebarItem
+								href={link(child.path)}
+								level="sub"
+								current={child === item}
+								onclick={closeDrawer}
+							>
+								{#snippet icon()}<Icon icon={child.icon} size="sm" />{/snippet}
+								{child.label[lang]}
+							</SidebarItem>
+						{/each}
+					</div>
 				{/if}
 			{:else}
 				<SidebarItem
@@ -317,15 +326,3 @@
 </div>
 
 <Toaster {toaster} placement="bottom-end" />
-
-<style>
-	/* La marca es un enlace, pero conserva el color del texto del menú. */
-	.brand {
-		color: inherit;
-	}
-
-	/* Las páginas de un grupo se alinean con las etiquetas, no con los iconos. */
-	:global(.lumi-sidebar-item.nav-child) {
-		padding-inline-start: calc(var(--lumi-space-3xl) + var(--lumi-space-2xs));
-	}
-</style>

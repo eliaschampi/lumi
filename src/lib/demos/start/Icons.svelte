@@ -4,5 +4,5 @@
 </script>
 
 <!-- Each page ships only the icons it renders. -->
-<Input label="Search" icon={Search} clearable />
+<Input label="Search" placeholder="Search customers" icon={Search} clearable />
 <Button variant="filled" icon={Search}>Search</Button>

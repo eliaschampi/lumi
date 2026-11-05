@@ -4,4 +4,9 @@
 	let city = $state<SelectValue | null>(null);
 </script>
 
-<Select bind:value={city} label="City" options={['Lima', 'Cusco', 'Arequipa', 'Trujillo']} />
+<Select
+	bind:value={city}
+	label="City"
+	placeholder="Choose a city"
+	options={['Lima', 'Cusco', 'Arequipa', 'Trujillo']}
+/>

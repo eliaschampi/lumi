@@ -9,6 +9,7 @@
 	bind:value={city}
 	name="city"
 	label="City"
+	placeholder="Choose a city"
 	options={['Lima', 'Cusco']}
 	required
 	hint="We use it to calculate delivery."

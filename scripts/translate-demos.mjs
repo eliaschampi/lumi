@@ -5,7 +5,7 @@
  * español muestre inglés por descuido, incluidos los comentarios. El texto mixto
  * con `{expresiones}` no se traduce: una demo debe sacar esos textos a una cadena.
  */
-import { cpSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
@@ -16,8 +16,9 @@ const output = join(root, 'src/lib/demos-es');
 const VISIBLE_PROP =
 	/\b(?:label|title|subtitle|description|placeholder|searchPlaceholder|noDataText|noResultsText|legend|hint|error|text|message|aria-label)(?:=|:\s*)(["'])((?:(?!\1).)+)\1/g;
 const STRING = /(["'`])((?:\\.|(?!\1).)*?)\1/g;
-const TEXT_NODE = />([^<>{}]*\p{L}[^<>{}]*)</gu;
-const COMMENT = /(?<=^\s*(?:\/\/|<!--) )(.+?)(?= -->|$)/gm;
+/** El contenido de `<code>` es un identificador, no texto. */
+const TEXT_NODE = /(?<!<code[^>]*)>([^<>{}]*\p{L}[^<>{}]*)</gu;
+const COMMENT = /(?<=^\s*(?:\/\/|<!--) )(?!svelte-ignore)(.+?)(?= -->|$)/gm;
 
 /**
  * @param {string} file
@@ -63,14 +64,11 @@ export function translateDemos() {
 	const missing = new Set();
 
 	rmSync(output, { recursive: true, force: true });
-	cpSync(source, output, {
-		recursive: true,
-		filter: (/** @type {string} */ path) => !path.endsWith('.json')
-	});
 
 	for (const file of readdirSync(source, { recursive: true, encoding: 'utf8' })) {
 		if (!file.endsWith('.svelte')) continue;
 		const code = readFileSync(join(source, file), 'utf8');
+		mkdirSync(dirname(join(output, file)), { recursive: true });
 		writeFileSync(join(output, file), translate(file, code, glossary, used, missing));
 	}
 

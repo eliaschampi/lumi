@@ -13,8 +13,10 @@ Antes de un cambio amplio, abre un issue que describa el problema y el resultado
 
 Sigue la instalación del [README](./README.md). Conserva SvelteKit, Svelte 5 runes y TypeScript estricto. Los componentes, clases y tokens públicos de Lumi son el sistema visual de este proyecto: no copies su implementación ni introduzcas un segundo framework CSS.
 
-- Escribe textos de interfaz y documentación del sitio en español claro.
-- Usa `navigation.ts` para secciones y descripciones, `site.ts` para enlaces públicos y `href()` para rutas internas.
+- Todo texto visible existe en inglés y español: usa el tipo `Text` o un objeto `COPY` por idioma.
+- Usa `navigation.ts` para páginas y descripciones, `site.ts` para enlaces públicos y `link()` para rutas internas.
+- Escribe cada demo una vez, en inglés, en `src/lib/demos/`, y añade sus textos a `es.json`. El build falla si falta alguno. El texto mixto con `{expresiones}` debe ir en una cadena.
+- Usa antes componentes, utilidades y patrones de Lumi que CSS propio. Un bloque `<style>` debe justificar qué no ofrece la biblioteca.
 - Usa `asset()` de SvelteKit para recursos locales.
 - Prefiere demostraciones pequeñas con estados vacíos, validación y feedback observables.
 - Identifica los datos ficticios y el alcance local de las interacciones. No simules que hay una operación de servidor.

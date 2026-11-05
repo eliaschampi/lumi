@@ -43,8 +43,8 @@ export default {
 			id: 'neutrals',
 			title: { en: 'Text and surfaces', es: 'Texto y superficies' },
 			text: {
-				en: 'Neutral tokens carry everything that has no meaning of its own: text, backgrounds and panels.',
-				es: 'Los tokens neutros cubren todo lo que no tiene significado propio: texto, fondos y paneles.'
+				en: 'Neutral text and surfaces carry everything with no meaning of its own. Use these utilities before writing any CSS.',
+				es: 'El texto y las superficies neutras cubren todo lo que no tiene significado propio. Usa estas utilidades antes de escribir CSS.'
 			},
 			demo: 'Neutrals',
 			showCode: false

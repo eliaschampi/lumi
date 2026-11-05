@@ -10,7 +10,7 @@
 	import type { PageProps } from './$types';
 
 	const { data }: PageProps = $props();
-	const QuickStart = $derived(data.quickStart.component);
+	const QuickStart = $derived(data.QuickStart);
 
 	const PATTERNS_IMPORT = `import '@lumi-ui/svelte/styles/patterns.css';`;
 
@@ -140,7 +140,7 @@ node scripts/migrate-1.0.mjs <app> --write  # aplica los cambios`,
 		<Title id="first-screen" title={t.firstTitle} subtitle={t.firstSubtitle} level={2} size="lg" />
 		<div class="lumi-grid lumi-grid--columns-2 lumi-grid--gap-lg">
 			<QuickStart />
-			<Card spaced><CodeBlock code={data.quickStart.code} label="src/routes/+page.svelte" /></Card>
+			<Card spaced><CodeBlock code={data.quickStartCode} label="src/routes/+page.svelte" /></Card>
 		</div>
 	</section>
 

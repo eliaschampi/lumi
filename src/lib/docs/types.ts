@@ -37,3 +37,35 @@ export interface Doc<Props = Record<string, unknown>> {
 	/** Tablas de las piezas que acompañan al componente, como `DropdownItem`. */
 	moreProps?: DocPropGroup[];
 }
+
+export interface DocPropView {
+	name: string;
+	type: string;
+	default?: string;
+	text: string;
+}
+
+export interface DocPropGroupView {
+	title: string;
+	props: DocPropView[];
+}
+
+export interface DocSectionView {
+	id: string;
+	title: string;
+	text: string;
+	demo?: string;
+	code?: string;
+	snippet?: DocSection['snippet'];
+}
+
+/** Una página en un solo idioma, tal como llega al navegador. */
+export interface DocView {
+	importLine?: string;
+	use?: string[];
+	avoid?: string[];
+	sections: DocSectionView[];
+	props?: DocPropView[];
+	propsNote?: string;
+	moreProps?: DocPropGroupView[];
+}

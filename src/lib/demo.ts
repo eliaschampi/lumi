@@ -33,9 +33,6 @@ export const WORKSPACES: readonly Workspace[] = [
 	{ id: 6, name: 'Pulse Center', owner: 'Fabio León', status: 'pending', value: 9800 }
 ];
 
-/** Responsables únicos, en el orden de la lista. */
-export const OWNERS = [...new Set(WORKSPACES.map((workspace) => workspace.owner))];
-
 const MONTHS: readonly { key: string; label: Text; value: number }[] = [
 	{ key: 'jan', label: { en: 'Jan', es: 'Ene' }, value: 18 },
 	{ key: 'feb', label: { en: 'Feb', es: 'Feb' }, value: 25 },
@@ -54,6 +51,3 @@ export const PREVIOUS_PERIOD_GAP = 7;
 
 /** Latencia simulada de las demostraciones que «cargan» o «responden». */
 export const SIMULATED_LATENCY_MS = 900;
-
-/** Límite de las subidas de la demostración de FileUpload. */
-export const MAX_UPLOAD_BYTES = 2_000_000;

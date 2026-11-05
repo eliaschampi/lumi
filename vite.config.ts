@@ -16,6 +16,19 @@ function spanishDemos(): Plugin {
 
 export default defineConfig(({ mode }) => ({
 	plugins: [spanishDemos(), sveltekit()],
+	build: {
+		rolldownOptions: {
+			output: {
+				codeSplitting: {
+					// Un chunk de iconos en caché en lugar de decenas de ficheros por debajo de 500 B.
+					groups: [
+						{ name: 'svelte', test: /node_modules[\\/](svelte|clsx)[\\/]/, priority: 2 },
+						{ name: 'icons', test: /@lucide[\\/]svelte/, priority: 1 }
+					]
+				}
+			}
+		}
+	},
 	define: {
 		__LUMI_VERSION__: JSON.stringify(lumi.version),
 		__LUMI_SVELTE_PEER__: JSON.stringify(lumi.peerDependencies.svelte),

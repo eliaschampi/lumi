@@ -9,8 +9,11 @@ export type Lang = (typeof LANGS)[number];
 export type Text = Record<Lang, string>;
 export type SitePath = `/${string}`;
 
+/** Idioma de un parámetro de ruta. */
+export const langOf = (param: string | undefined): Lang => (param === 'es' ? 'es' : 'en');
+
 /** Idioma de la página actual, derivado de la URL. */
-export const currentLang = (): Lang => (page.params.lang === 'es' ? 'es' : 'en');
+export const currentLang = (): Lang => langOf(page.params.lang);
 
 /** Enlace interno en el idioma pedido; por defecto, el que se está leyendo. */
 export function link(path: SitePath, lang: Lang = currentLang()): string {

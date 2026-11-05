@@ -15,7 +15,14 @@
 			saved = true;
 		}}
 	>
-		<Input bind:value={name} name="project" label="Project name" required clearable />
+		<Input
+			bind:value={name}
+			name="project"
+			label="Project name"
+			placeholder="My project"
+			required
+			clearable
+		/>
 		<Button type="submit" variant="filled" icon={Check} disabled={!name.trim()}>Try it</Button>
 		{#if saved}
 			<Alert color="success" title="It works!" closable bind:active={saved}>{message}</Alert>

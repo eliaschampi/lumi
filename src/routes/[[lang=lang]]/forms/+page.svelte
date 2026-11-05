@@ -37,11 +37,14 @@
 			cardSubtitle: 'Every control can be tried',
 			identity: 'Identity',
 			name: 'Name',
+			namePlaceholder: 'Acme Studio',
 			email: 'Email',
+			emailPlaceholder: 'you@example.com',
 			emailHint: 'It will receive the workspace notices.',
 			members: 'Members',
 			membersHint: (min: number, max: number) => `Between ${min} and ${max} people.`,
 			region: 'Region',
+			regionPlaceholder: 'Choose a region',
 			plan: 'Plan',
 			planLabel: 'Workspace plan',
 			preferences: 'Preferences',
@@ -49,6 +52,7 @@
 			analytics: 'Share anonymous metrics',
 			capacity: 'Target capacity',
 			notes: 'Notes',
+			notesPlaceholder: 'Anything your team should know',
 			defaultNotes: 'A calm, clear and consistent interface.',
 			reset: 'Reset example',
 			save: 'Save changes',
@@ -66,11 +70,14 @@
 			cardSubtitle: 'Todos los controles se pueden probar',
 			identity: 'Identidad',
 			name: 'Nombre',
+			namePlaceholder: 'Estudio Andino',
 			email: 'Correo',
+			emailPlaceholder: 'tu@ejemplo.com',
 			emailHint: 'Recibirá los avisos del espacio.',
 			members: 'Miembros',
 			membersHint: (min: number, max: number) => `Entre ${min} y ${max} personas.`,
 			region: 'Región',
+			regionPlaceholder: 'Elige una región',
 			plan: 'Plan',
 			planLabel: 'Plan del espacio de trabajo',
 			preferences: 'Preferencias',
@@ -78,6 +85,7 @@
 			analytics: 'Compartir métricas anónimas',
 			capacity: 'Capacidad objetivo',
 			notes: 'Notas',
+			notesPlaceholder: 'Lo que tu equipo deba saber',
 			defaultNotes: 'Una interfaz tranquila, clara y consistente.',
 			reset: 'Restablecer ejemplo',
 			save: 'Guardar cambios',
@@ -169,6 +177,7 @@
 						bind:value={values.name}
 						name="name"
 						label={t.name}
+						placeholder={t.namePlaceholder}
 						icon={Building}
 						autocomplete="organization"
 						required
@@ -179,6 +188,7 @@
 						name="email"
 						type="email"
 						label={t.email}
+						placeholder={t.emailPlaceholder}
 						icon={Mail}
 						autocomplete="email"
 						required
@@ -197,6 +207,7 @@
 						bind:value={values.region}
 						name="region"
 						label={t.region}
+						placeholder={t.regionPlaceholder}
 						options={REGIONS}
 						searchable
 					/>
@@ -238,6 +249,7 @@
 				bind:value={values.notes}
 				name="notes"
 				label={t.notes}
+				placeholder={t.notesPlaceholder}
 				rows={4}
 				maxlength={LIMITS.notes}
 				showCount

@@ -7,12 +7,12 @@
 	import CodeBlock from '$lib/CodeBlock.svelte';
 	import { currentLang, link, sitePath } from '$lib/i18n';
 	import { NAV_ITEMS, navItemFor } from '$lib/navigation';
-	import type { LoadedDemo } from './load';
+	import type { Component } from 'svelte';
 	import PageIndex from './PageIndex.svelte';
-	import PropsTable from './PropsTable.svelte';
-	import type { Doc } from './types';
+	import PropsList from './PropsList.svelte';
+	import type { DocView } from './types';
 
-	const { doc, demos }: { doc: Doc; demos: (LoadedDemo | undefined)[] } = $props();
+	const { doc, demos }: { doc: DocView; demos: (Component | undefined)[] } = $props();
 
 	const COPY = {
 		en: {
@@ -38,7 +38,7 @@
 	const previous = $derived(NAV_ITEMS[position - 1]);
 	const next = $derived(NAV_ITEMS[position + 1]);
 	const index = $derived([
-		...doc.sections.map(({ id, title }) => ({ id, title: title[lang] })),
+		...doc.sections.map(({ id, title }) => ({ id, title })),
 		...(doc.props ? [{ id: 'props', title: t.props }] : [])
 	]);
 </script>
@@ -59,40 +59,40 @@
 		{#if doc.use && doc.avoid}
 			<div class="lumi-grid lumi-grid--columns-2 lumi-grid--gap-md">
 				<Card title={t.use} spaced>
-					<ul class="guidance lumi-stack lumi-stack--xs">
-						{#each doc.use[lang] as entry (entry)}
-							<li class="lumi-flex lumi-flex--gap-xs">
+					<div class="lumi-stack lumi-stack--xs" role="list">
+						{#each doc.use as entry (entry)}
+							<div class="lumi-flex lumi-flex--gap-xs" role="listitem">
 								<span class="lumi-text--success"><Icon icon={Check} size="sm" /></span>
 								<span>{entry}</span>
-							</li>
+							</div>
 						{/each}
-					</ul>
+					</div>
 				</Card>
 				<Card title={t.avoid} spaced>
-					<ul class="guidance lumi-stack lumi-stack--xs">
-						{#each doc.avoid[lang] as entry (entry)}
-							<li class="lumi-flex lumi-flex--gap-xs">
+					<div class="lumi-stack lumi-stack--xs" role="list">
+						{#each doc.avoid as entry (entry)}
+							<div class="lumi-flex lumi-flex--gap-xs" role="listitem">
 								<span class="lumi-text--muted"><Icon icon={X} size="sm" /></span>
 								<span>{entry}</span>
-							</li>
+							</div>
 						{/each}
-					</ul>
+					</div>
 				</Card>
 			</div>
 		{/if}
 
 		{#each doc.sections as section, index (section.id)}
-			{@const demo = demos[index]}
+			{@const Demo = demos[index]}
 			<section id={section.id} class="lumi-stack lumi-stack--md lumi-min-width--0">
 				<div class="lumi-stack lumi-stack--xs">
-					<Title title={section.title[lang]} level={2} size="md" />
-					<p class="lumi-text--muted lumi-margin--none">{section.text[lang]}</p>
+					<Title title={section.title} level={2} size="md" />
+					<p class="lumi-text--muted lumi-margin--none">{section.text}</p>
 				</div>
-				{#if demo}
-					<div class="preview lumi-min-width--0"><demo.component /></div>
-					{#if section.showCode !== false}
-						<CodeBlock code={demo.code} label={`${section.demo}.svelte`} />
-					{/if}
+				{#if Demo}
+					<Card spaced><Demo /></Card>
+				{/if}
+				{#if section.code}
+					<CodeBlock code={section.code} label={`${section.demo}.svelte`} />
 				{/if}
 				{#if section.snippet}
 					<CodeBlock code={section.snippet.code} label={section.snippet.label} />
@@ -105,13 +105,13 @@
 				<div class="lumi-stack lumi-stack--xs">
 					<Title title={t.props} level={2} size="md" />
 					{#if doc.propsNote}
-						<p class="lumi-text--muted lumi-margin--none">{doc.propsNote[lang]}</p>
+						<p class="lumi-text--muted lumi-margin--none">{doc.propsNote}</p>
 					{/if}
 				</div>
-				<PropsTable props={doc.props} />
+				<PropsList props={doc.props} />
 				{#each doc.moreProps ?? [] as group (group.title)}
 					<Title title={group.title} level={3} size="sm" />
-					<PropsTable props={group.props} />
+					<PropsList props={group.props} />
 				{/each}
 			</section>
 		{/if}
@@ -133,34 +133,12 @@
 </div>
 
 <style>
-	/* El índice ocupa una columna solo cuando el contenido tiene ancho de sobra. */
-	.doc {
-		display: grid;
-		grid-template-columns: minmax(0, 1fr);
-		gap: var(--lumi-space-xl);
-	}
-
-	@media (min-width: 90rem) {
+	/* Lumi no ofrece una columna de índice: dos columnas solo cuando hay ancho para ambas. */
+	@media (min-width: 75rem) {
 		.doc {
-			grid-template-columns: minmax(0, 1fr) 13rem;
+			display: grid;
+			grid-template-columns: minmax(0, 1fr) var(--lumi-layout-sidebar-min-width);
+			gap: var(--lumi-space-xl);
 		}
-	}
-
-	section {
-		scroll-margin-block-start: var(--lumi-space-5xl);
-	}
-
-	/* La biblioteca no ofrece un marco de demostración: composición propia con tokens públicos. */
-	.preview {
-		padding: var(--lumi-space-lg);
-		border: var(--lumi-border-width-thin) solid var(--lumi-color-border-glass);
-		border-radius: var(--lumi-radius-panel);
-		background: var(--lumi-color-surface-card);
-	}
-
-	.guidance {
-		margin: 0;
-		padding: 0;
-		list-style: none;
 	}
 </style>

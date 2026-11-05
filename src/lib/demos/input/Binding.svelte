@@ -6,6 +6,6 @@
 </script>
 
 <div class="lumi-stack lumi-stack--sm">
-	<Input bind:value={name} label="Name" clearable />
+	<Input bind:value={name} label="Name" placeholder="Your name" clearable />
 	<p class="lumi-text--muted lumi-margin--none">{greeting}</p>
 </div>

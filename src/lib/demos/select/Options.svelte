@@ -10,4 +10,10 @@
 	let role = $state<SelectValue | null>('editor');
 </script>
 
-<Select bind:value={role} label="Role" options={ROLES} clearable={false} />
+<Select
+	bind:value={role}
+	label="Role"
+	placeholder="Choose a role"
+	options={ROLES}
+	clearable={false}
+/>

@@ -9,6 +9,7 @@
 	bind:value={email}
 	label="Email"
 	type="email"
+	placeholder="you@example.com"
 	hint="We will send the receipt here."
 	{error}
 />

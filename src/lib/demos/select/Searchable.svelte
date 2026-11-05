@@ -6,4 +6,10 @@
 	let country = $state<SelectValue | null>(null);
 </script>
 
-<Select bind:value={country} label="Country" options={COUNTRIES} searchable />
+<Select
+	bind:value={country}
+	label="Country"
+	placeholder="Search a country"
+	options={COUNTRIES}
+	searchable
+/>

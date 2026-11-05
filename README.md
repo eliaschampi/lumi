@@ -32,16 +32,18 @@ Consulta [Empezar](https://eliaschampi.github.io/lumi/getting-started), la [refe
 
 ## Qué encontrarás
 
-| Sección     | Propósito                                                |
-| ----------- | -------------------------------------------------------- |
-| Inicio      | Qué ofrece Lumi, instalación y una primera interacción   |
-| Empezar     | Estilos, ejemplo copiable y control de apariencia        |
-| Componentes | Familias, variantes, estados, diálogos y código de uso   |
-| Formularios | Validación nativa, selección y restablecimiento          |
-| Datos       | Búsqueda, selección, paginación y gráficos               |
-| Apariencia  | Tema persistente y navegación compacta durante la visita |
+El sitio está en inglés en la raíz y en español bajo `/es`.
 
-Los datos son ficticios. Los formularios y archivos seleccionados permanecen en el navegador; no hay cuentas, envíos ni persistencia en un servidor. `RemoteSelect` se documenta como una integración con una API real: GitHub Pages no ejecuta consultas de servidor. La búsqueda interactiva del sitio usa `Select` con filtrado local.
+| Sección     | Propósito                                                                  |
+| ----------- | -------------------------------------------------------------------------- |
+| Inicio      | Qué ofrece Lumi, instalación y una primera interacción                     |
+| Empezar     | Estilos, ejemplo copiable y control de apariencia                          |
+| Fundamentos | Colores y layout, con los roles y clases de uso diario                     |
+| Componentes | Catálogo y una página por componente: cuándo usarlo, demos, código y props |
+| Recetas     | Un formulario y una página de datos completos                              |
+| Apariencia  | Tema persistente y navegación compacta durante la visita                   |
+
+Los datos son ficticios. Los formularios permanecen en el navegador; no hay cuentas, envíos ni persistencia en un servidor.
 
 ## Desarrollar este sitio
 
@@ -67,7 +69,7 @@ El servidor abre en `http://localhost:5174`. Comandos disponibles:
 
 ### Versión de la biblioteca
 
-`pnpm-lock.yaml` fija la versión instalada. Tras migrar a `^1.0.0`, regenera el lockfile con `pnpm install` en cuanto la versión 1.0 esté publicada en npm; hasta entonces `pnpm install --frozen-lockfile` falla porque el lockfile aún describe la 0.5. El sitio lee su versión y requisito de Svelte desde el `package.json` de ese paquete al compilar; no mantiene una segunda versión manual en la interfaz.
+`pnpm-lock.yaml` fija la versión instalada. El sitio lee su versión y requisito de Svelte desde el `package.json` de ese paquete al compilar; no mantiene una segunda versión manual en la interfaz.
 
 ```bash
 pnpm list @lumi-ui/svelte
@@ -100,28 +102,25 @@ En otros hosts estáticos, sirve `build/`. Para construir en una base o dominio 
 
 ```text
 .github/workflows/deploy.yml   Validación y publicación en GitHub Pages
-src/app.html                  Documento base, idioma y favicon
+scripts/translate-demos.mjs    Genera las demos en español desde el glosario
+src/app.html                   Documento base; el idioma se inyecta por página
+src/hooks.server.ts            Idioma del documento al prerenderizar
+src/params/                    Rutas válidas: idioma y secciones de documentación
 src/lib/
-  navigation.ts               Única fuente de secciones, rutas e iconos
-  site.ts                     Enlaces públicos, versión y configuración regional
-  demo.ts                     Datos ficticios compartidos por las demostraciones
-  toaster.ts                  Instancia única de notificaciones del sitio
-  color-scheme.svelte.ts       Preferencia de tema de este sitio
-  navigation-mode.svelte.ts   Densidad de navegación durante la visita
-  CodeBlock.svelte            Código seleccionable, copia y feedback
-  InstallCommand.svelte       Comando de instalación por gestor de paquetes
-  examples/                   Ejemplos reales: se muestran como texto (?raw) y svelte-check los valida
-src/routes/
-  +layout.svelte              Shell, navegación, metadatos y pie de página
-  +layout.ts                  Prerender estático
-  +page.svelte                Presentación de la biblioteca
-  getting-started/            Guía de inicio
-  components/                 Galería interactiva por familias (families/)
-  forms/ data/ settings/      Composiciones y apariencia
-static/                       Recursos locales de demostración
+  i18n.ts                      Idiomas, enlaces y tipo Text
+  navigation.ts                Única fuente de páginas, grupos e iconos
+  site.ts                      Enlaces públicos, versión y formatos por idioma
+  demo.ts                      Datos ficticios de las recetas
+  highlight.ts                 Resaltado de código con utilidades de Lumi
+  CodeBlock.svelte             Código seleccionable y copia
+  demos/                       Demos reales en inglés y glosario es.json
+  demos-es/                    Generado, no se versiona
+  docs/                        Plantilla y páginas de documentación en datos
+  server/docs.ts               Prosa y código: solo llegan como datos prerenderizados
+src/routes/[[lang=lang]]/      Todas las páginas, en ambos idiomas
 ```
 
-Usamos Svelte 5 runes, TypeScript estricto y componentes, clases y tokens públicos de Lumi. No copiamos componentes internos de la biblioteca ni añadimos otro sistema CSS. Cada ejemplo de código se importa como texto desde un componente real en `src/lib/examples/`, así la vista previa, el código mostrado y la API de la biblioteca no divergen.
+Usamos Svelte 5 runes, TypeScript estricto y componentes, clases y tokens públicos de Lumi. No copiamos componentes internos de la biblioteca ni añadimos otro sistema CSS. Cada demo es un componente real, escrito una vez en inglés: la vista previa, el código mostrado y su versión en español salen del mismo fichero.
 
 ## Contribuciones y licencia
 

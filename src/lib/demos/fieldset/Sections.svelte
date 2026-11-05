@@ -5,15 +5,15 @@
 <form class="lumi-stack lumi-stack--lg">
 	<Fieldset legend="Personal details">
 		<div class="lumi-grid lumi-grid--columns-2-lg lumi-grid--gap-md">
-			<Input label="First name" />
-			<Input label="Last name" />
+			<Input label="First name" placeholder="Ana" />
+			<Input label="Last name" placeholder="Torres" />
 		</div>
 	</Fieldset>
 
 	<Fieldset legend="Delivery">
 		<div class="lumi-grid lumi-grid--columns-2-lg lumi-grid--gap-md">
-			<Input label="Address" />
-			<Select label="City" options={['Lima', 'Cusco']} />
+			<Input label="Address" placeholder="Street and number" />
+			<Select label="City" placeholder="Choose a city" options={['Lima', 'Cusco']} />
 		</div>
 	</Fieldset>
 

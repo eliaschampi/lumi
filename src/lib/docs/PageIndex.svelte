@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { SidebarItem } from '@lumi-ui/svelte';
 	import { currentLang } from '$lib/i18n';
 
 	const { entries }: { entries: { id: string; title: string }[] } = $props();
@@ -23,59 +24,21 @@
 	});
 </script>
 
-<nav class="index" aria-label={LABEL[currentLang()]}>
+<nav
+	class="lumi-page-sidebar__desktop lumi-stack lumi-stack--2xs"
+	aria-label={LABEL[currentLang()]}
+>
 	<p class="lumi-text--sm lumi-font--semibold lumi-margin--none">{LABEL[currentLang()]}</p>
-	<ul class="lumi-stack lumi-stack--2xs">
-		{#each entries as { id, title } (id)}
-			<li>
-				<a href={`#${id}`} class="lumi-text--sm" class:active={id === active}>{title}</a>
-			</li>
-		{/each}
-	</ul>
+	{#each entries as { id, title } (id)}
+		<SidebarItem href={`#${id}`} level="sub" current={id === active}>{title}</SidebarItem>
+	{/each}
 </nav>
 
 <style>
-	.index {
-		display: none;
-	}
-
 	/* Mismo umbral que la columna que le reserva `DocPage`. */
-	@media (min-width: 90rem) {
-		.index {
-			position: sticky;
-			inset-block-start: var(--lumi-space-lg);
-			display: grid;
-			align-self: start;
-			gap: var(--lumi-space-sm);
+	@media (max-width: 75rem) {
+		nav {
+			display: none;
 		}
-	}
-
-	ul {
-		margin: 0;
-		padding: 0;
-		list-style: none;
-	}
-
-	a {
-		display: block;
-		padding-inline-start: var(--lumi-space-sm);
-		color: var(--lumi-color-text-muted);
-		text-decoration: none;
-		border-inline-start: var(--lumi-border-width-thick) solid transparent;
-		transition: var(--lumi-transition-control);
-	}
-
-	a:hover {
-		color: var(--lumi-color-text);
-	}
-
-	a.active {
-		color: var(--lumi-color-primary);
-		border-inline-start-color: var(--lumi-color-primary);
-	}
-
-	a:focus-visible {
-		outline: var(--lumi-focus-outline);
-		outline-offset: var(--lumi-focus-outline-offset);
 	}
 </style>
