@@ -22,6 +22,18 @@ export default {
 			demo: 'Everywhere'
 		},
 		{
+			id: 'meters',
+			title: {
+				en: 'Slider and Progress in every color',
+				es: 'Slider y Progress en todos los colores'
+			},
+			text: {
+				en: 'Both take the same color prop. Move a slider and the bar below it follows, because they read the same value.',
+				es: 'Ambos usan la misma prop color. Mueve un slider y la barra de abajo lo sigue, porque leen el mismo valor.'
+			},
+			demo: 'Meters'
+		},
+		{
 			id: 'status',
 			title: { en: 'Map your statuses to colors', es: 'Traduce tus estados a colores' },
 			text: {
