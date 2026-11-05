@@ -20,7 +20,6 @@
 			use: 'Use it for',
 			avoid: 'Use something else for',
 			props: 'Props',
-			propsHint: 'Besides these, global HTML attributes reach the element.',
 			next: 'Next'
 		},
 		es: {
@@ -28,7 +27,6 @@
 			use: 'Úsalo para',
 			avoid: 'Usa otra cosa para',
 			props: 'Props',
-			propsHint: 'Además de estas, los atributos HTML globales llegan al elemento.',
 			next: 'Siguiente'
 		}
 	} as const;
@@ -106,9 +104,15 @@
 			<section id="props" class="lumi-stack lumi-stack--md lumi-min-width--0">
 				<div class="lumi-stack lumi-stack--xs">
 					<Title title={t.props} level={2} size="md" />
-					<p class="lumi-text--muted lumi-margin--none">{t.propsHint}</p>
+					{#if doc.propsNote}
+						<p class="lumi-text--muted lumi-margin--none">{doc.propsNote[lang]}</p>
+					{/if}
 				</div>
 				<PropsTable props={doc.props} />
+				{#each doc.moreProps ?? [] as group (group.title)}
+					<Title title={group.title} level={3} size="sm" />
+					<PropsTable props={group.props} />
+				{/each}
 			</section>
 		{/if}
 

@@ -1,12 +1,24 @@
+import AppWindow from '@lucide/svelte/icons/app-window';
 import BookOpen from '@lucide/svelte/icons/book-open';
 import Boxes from '@lucide/svelte/icons/boxes';
 import ChartBar from '@lucide/svelte/icons/chart-bar';
+import ChevronDown from '@lucide/svelte/icons/chevron-down';
 import ClipboardPenLine from '@lucide/svelte/icons/clipboard-pen-line';
+import Group from '@lucide/svelte/icons/group';
+import Heading1 from '@lucide/svelte/icons/heading-1';
 import House from '@lucide/svelte/icons/house';
+import Inbox from '@lucide/svelte/icons/inbox';
+import Info from '@lucide/svelte/icons/info';
 import LayoutGrid from '@lucide/svelte/icons/layout-grid';
+import ListFilter from '@lucide/svelte/icons/list-filter';
 import MousePointerClick from '@lucide/svelte/icons/mouse-pointer-click';
 import Palette from '@lucide/svelte/icons/palette';
+import PanelTop from '@lucide/svelte/icons/panel-top';
 import Swatches from '@lucide/svelte/icons/swatch-book';
+import Table2 from '@lucide/svelte/icons/table-2';
+import Tag from '@lucide/svelte/icons/tag';
+import TextCursorInput from '@lucide/svelte/icons/text-cursor-input';
+import TriangleAlert from '@lucide/svelte/icons/triangle-alert';
 import type { IconComponent } from '@lumi-ui/svelte';
 import type { Lang, SitePath, Text } from '$lib/i18n';
 
@@ -26,6 +38,74 @@ export interface NavGroup {
 }
 
 export type NavEntry = NavItem | NavGroup;
+
+const component = (
+	slug: string,
+	name: string,
+	icon: IconComponent,
+	description: Text
+): NavItem => ({
+	path: `/components/${slug}`,
+	label: { en: name, es: name },
+	icon,
+	description
+});
+
+/** Componentes documentados, por orden de uso en aplicaciones reales. */
+const COMPONENT_PAGES: readonly NavItem[] = [
+	component('button', 'Button', MousePointerClick, {
+		en: 'Five styles, six colors and four sizes for every action, link and toggle.',
+		es: 'Cinco estilos, seis colores y cuatro tamaños para cada acción, enlace e interruptor.'
+	}),
+	component('alert', 'Alert', TriangleAlert, {
+		en: 'A message that stays on the page until the situation changes.',
+		es: 'Un mensaje que permanece en la página hasta que la situación cambia.'
+	}),
+	component('chip', 'Chip', Tag, {
+		en: 'Compact labels for statuses, categories and active filters.',
+		es: 'Etiquetas compactas para estados, categorías y filtros activos.'
+	}),
+	component('input', 'Input', TextCursorInput, {
+		en: 'Text fields with a label, icons, hints and error messages built in.',
+		es: 'Campos de texto con etiqueta, iconos, ayudas y mensajes de error integrados.'
+	}),
+	component('empty-state', 'EmptyState', Inbox, {
+		en: 'What to show when there is nothing to show, and what to do next.',
+		es: 'Qué mostrar cuando no hay nada que mostrar y qué hacer a continuación.'
+	}),
+	component('card', 'Card', PanelTop, {
+		en: 'A surface that groups related content, with optional header and footer.',
+		es: 'Una superficie que agrupa contenido relacionado, con cabecera y pie opcionales.'
+	}),
+	component('info-item', 'InfoItem', Info, {
+		en: 'A label and its value, for reading the details of a record.',
+		es: 'Una etiqueta y su valor, para leer los detalles de un registro.'
+	}),
+	component('dialog', 'Dialog', AppWindow, {
+		en: 'A modal window for focused tasks and confirmations.',
+		es: 'Una ventana modal para tareas concretas y confirmaciones.'
+	}),
+	component('dropdown', 'Dropdown', ChevronDown, {
+		en: 'A menu of actions anchored to a button.',
+		es: 'Un menú de acciones anclado a un botón.'
+	}),
+	component('select', 'Select', ListFilter, {
+		en: 'Pick one option from a list, with search when the list is long.',
+		es: 'Elige una opción de una lista, con búsqueda cuando la lista es larga.'
+	}),
+	component('table', 'Table', Table2, {
+		en: 'Rows of records with search, selection, pagination and loading states.',
+		es: 'Filas de registros con búsqueda, selección, paginación y estados de carga.'
+	}),
+	component('page-header', 'PageHeader', Heading1, {
+		en: 'The title of a screen, its icon and its main actions.',
+		es: 'El título de una pantalla, su icono y sus acciones principales.'
+	}),
+	component('fieldset', 'Fieldset', Group, {
+		en: 'Groups related fields under one heading inside a form.',
+		es: 'Agrupa campos relacionados bajo un título dentro de un formulario.'
+	})
+];
 
 /** Única fuente de la navegación: menú lateral, títulos y metadatos. */
 export const NAVIGATION: readonly NavEntry[] = [
@@ -86,15 +166,7 @@ export const NAVIGATION: readonly NavEntry[] = [
 					es: 'Explora los componentes de Lumi UI, prueba sus estados y copia ejemplos de uso.'
 				}
 			},
-			{
-				path: '/components/button',
-				label: { en: 'Button', es: 'Button' },
-				icon: MousePointerClick,
-				description: {
-					en: 'Five styles, six colors and four sizes for every action, link and toggle.',
-					es: 'Cinco estilos, seis colores y cuatro tamaños para cada acción, enlace e interruptor.'
-				}
-			}
+			...COMPONENT_PAGES
 		]
 	},
 	{

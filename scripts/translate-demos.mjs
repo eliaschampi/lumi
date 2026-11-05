@@ -14,7 +14,7 @@ const source = join(root, 'src/lib/demos');
 const output = join(root, 'src/lib/demos-es');
 
 const VISIBLE_PROP =
-	/\b(?:label|title|subtitle|description|placeholder|legend|hint|text|message|ariaLabel|aria-label)(?:=|:\s*)(["'])((?:(?!\1).)+)\1/g;
+	/\b(?:label|title|subtitle|description|placeholder|searchPlaceholder|noDataText|noResultsText|legend|hint|error|text|message|aria-label)(?:=|:\s*)(["'])((?:(?!\1).)+)\1/g;
 const STRING = /(["'`])((?:\\.|(?!\1).)*?)\1/g;
 const TEXT_NODE = />([^<>{}]*\p{L}[^<>{}]*)</gu;
 const COMMENT = /(?<=^\s*(?:\/\/|<!--) )(.+?)(?= -->|$)/gm;
@@ -24,16 +24,15 @@ const COMMENT = /(?<=^\s*(?:\/\/|<!--) )(.+?)(?= -->|$)/gm;
  * @param {string} code
  * @param {Record<string, string>} glossary
  * @param {Set<string>} used
+ * @param {Set<string>} missing
  */
-function translate(file, code, glossary, used) {
+function translate(file, code, glossary, used, missing) {
 	/** @param {string} value */
 	const lookup = (value) => {
-		const translation = glossary[value];
-		if (translation === undefined) {
-			throw new Error(`${file}: falta traducir «${value}» en src/lib/demos/es.json`);
-		}
 		used.add(value);
-		return translation;
+		if (value in glossary) return glossary[value];
+		missing.add(`${file}: ${value}`);
+		return value;
 	};
 
 	for (const [, , value] of code.matchAll(VISIBLE_PROP)) lookup(value);
@@ -58,7 +57,10 @@ function translate(file, code, glossary, used) {
 
 export function translateDemos() {
 	const glossary = JSON.parse(readFileSync(join(source, 'es.json'), 'utf8'));
+	/** @type {Set<string>} */
 	const used = new Set();
+	/** @type {Set<string>} */
+	const missing = new Set();
 
 	rmSync(output, { recursive: true, force: true });
 	cpSync(source, output, {
@@ -69,7 +71,11 @@ export function translateDemos() {
 	for (const file of readdirSync(source, { recursive: true, encoding: 'utf8' })) {
 		if (!file.endsWith('.svelte')) continue;
 		const code = readFileSync(join(source, file), 'utf8');
-		writeFileSync(join(output, file), translate(file, code, glossary, used));
+		writeFileSync(join(output, file), translate(file, code, glossary, used, missing));
+	}
+
+	if (missing.size) {
+		throw new Error(`Falta en src/lib/demos/es.json:\n${[...missing].join('\n')}`);
 	}
 
 	const unused = Object.keys(glossary).filter((key) => !used.has(key));

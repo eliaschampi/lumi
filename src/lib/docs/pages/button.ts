@@ -110,6 +110,10 @@ export default {
 			demo: 'ConfirmDelete'
 		}
 	],
+	propsNote: {
+		en: 'Global HTML attributes such as title, id and data-* also reach the element.',
+		es: 'Los atributos HTML globales, como title, id y data-*, también llegan al elemento.'
+	},
 	props: [
 		{
 			name: 'variant',

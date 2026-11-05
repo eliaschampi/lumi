@@ -20,6 +20,11 @@ export interface DocProp<Props> {
 	text: Text;
 }
 
+export interface DocPropGroup {
+	title: string;
+	props: DocProp<Record<string, unknown>>[];
+}
+
 export interface Doc<Props = Record<string, unknown>> {
 	/** Línea de importación que encabeza la página. */
 	importLine?: string;
@@ -27,4 +32,8 @@ export interface Doc<Props = Record<string, unknown>> {
 	avoid?: { en: string[]; es: string[] };
 	sections: DocSection[];
 	props?: DocProp<Props>[];
+	/** Atributos nativos que también acepta, además de las props listadas. */
+	propsNote?: Text;
+	/** Tablas de las piezas que acompañan al componente, como `DropdownItem`. */
+	moreProps?: DocPropGroup[];
 }
