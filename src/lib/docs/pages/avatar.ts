@@ -2,7 +2,7 @@ import type { AvatarProps } from '@lumi-ui/svelte';
 import type { Doc } from '../types';
 
 export default {
-	importLine: `import { Avatar } from '@lumi-ui/svelte';`,
+	importLine: `import { Avatar, AvatarGroup } from '@lumi-ui/svelte';`,
 	use: {
 		en: ['Showing who a record belongs to', 'Account menus and message lists'],
 		es: ['Mostrar a quién pertenece un registro', 'Menús de cuenta y listas de mensajes']
@@ -29,6 +29,15 @@ export default {
 				es: 'Los tamaños siguen la escala compartida, así un avatar se alinea con botones y texto.'
 			},
 			demo: 'Sizes'
+		},
+		{
+			id: 'group',
+			title: { en: 'Groups', es: 'Grupos' },
+			text: {
+				en: 'AvatarGroup overlaps several people and counts the rest once it passes max.',
+				es: 'AvatarGroup superpone varias personas y cuenta el resto al pasar de max.'
+			},
+			demo: 'Group'
 		}
 	],
 	props: [

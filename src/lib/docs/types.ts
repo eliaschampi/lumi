@@ -9,6 +9,8 @@ export interface DocSection {
 	demo?: string;
 	/** `false` oculta el código de una demo que solo ilustra. */
 	showCode?: boolean;
+	/** `false` muestra solo el código: estructura de aplicación o datos de una API. */
+	preview?: boolean;
 	/** Código sin vista previa, como CSS de la aplicación. */
 	snippet?: { label: string; code: string };
 }
@@ -55,6 +57,7 @@ export interface DocSectionView {
 	title: string;
 	text: string;
 	demo?: string;
+	preview: boolean;
 	code?: string;
 	snippet?: DocSection['snippet'];
 }

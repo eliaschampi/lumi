@@ -37,6 +37,30 @@ import TextInitial from '@lucide/svelte/icons/text-initial';
 import ToggleLeft from '@lucide/svelte/icons/toggle-left';
 import TriangleAlert from '@lucide/svelte/icons/triangle-alert';
 import CircleDot from '@lucide/svelte/icons/circle-dot';
+import Search from '@lucide/svelte/icons/search';
+import Tags from '@lucide/svelte/icons/tags';
+import SlidersHorizontal from '@lucide/svelte/icons/sliders-horizontal';
+import CalendarRange from '@lucide/svelte/icons/calendar-range';
+import Upload from '@lucide/svelte/icons/upload';
+import UserRound from '@lucide/svelte/icons/user-round';
+import Gauge from '@lucide/svelte/icons/gauge';
+import ChartLine from '@lucide/svelte/icons/chart-line';
+import MessagesSquare from '@lucide/svelte/icons/messages-square';
+import ImageIcon from '@lucide/svelte/icons/image';
+import Shapes from '@lucide/svelte/icons/shapes';
+import BadgeCheck from '@lucide/svelte/icons/badge-check';
+import Heading2 from '@lucide/svelte/icons/heading-2';
+import Minus from '@lucide/svelte/icons/minus';
+import ChevronsUpDown from '@lucide/svelte/icons/chevrons-up-down';
+import OctagonAlert from '@lucide/svelte/icons/octagon-alert';
+import LoaderCircle from '@lucide/svelte/icons/loader-circle';
+import RectangleHorizontal from '@lucide/svelte/icons/rectangle-horizontal';
+import Percent from '@lucide/svelte/icons/percent';
+import Circle from '@lucide/svelte/icons/circle';
+import Ellipsis from '@lucide/svelte/icons/ellipsis';
+import PanelLeft from '@lucide/svelte/icons/panel-left';
+import PanelRight from '@lucide/svelte/icons/panel-right';
+import Zap from '@lucide/svelte/icons/zap';
 import type { IconComponent } from '@lumi-ui/svelte';
 import type { Lang, SitePath, Text } from '$lib/i18n';
 
@@ -107,6 +131,10 @@ export const COMPONENT_GROUPS: readonly NavGroup[] = [
 				en: 'Pick one option from a list, with search when the list is long.',
 				es: 'Elige una opción de una lista, con búsqueda cuando la lista es larga.'
 			}),
+			component('remote-select', 'RemoteSelect', Search, {
+				en: 'A Select that searches on your server as people type.',
+				es: 'Un Select que busca en tu servidor mientras se escribe.'
+			}),
 			component('checkbox', 'Checkbox', SquareCheck, {
 				en: 'A yes or no that is sent with the form.',
 				es: 'Un sí o no que se envía con el formulario.'
@@ -122,6 +150,22 @@ export const COMPONENT_GROUPS: readonly NavGroup[] = [
 			component('segmented-control', 'SegmentedControl', Rows3, {
 				en: 'One choice from two to five short options, always in view.',
 				es: 'Una elección entre dos y cinco opciones cortas, siempre a la vista.'
+			}),
+			component('tag-option', 'TagOption', Tags, {
+				en: 'Pick a visible option, such as a size or a variant.',
+				es: 'Elige una opción visible, como una talla o una variante.'
+			}),
+			component('slider', 'Slider', SlidersHorizontal, {
+				en: 'Choose a rough value inside a range.',
+				es: 'Elige un valor aproximado dentro de un rango.'
+			}),
+			component('date-range-filter', 'DateRangeFilter', CalendarRange, {
+				en: 'Two dates that filter reports and lists.',
+				es: 'Dos fechas que filtran informes y listados.'
+			}),
+			component('file-upload', 'FileUpload', Upload, {
+				en: 'Choose files with validation and a list of what was added.',
+				es: 'Elige archivos con validación y una lista de lo añadido.'
 			}),
 			component('fieldset', 'Fieldset', Group, {
 				en: 'Groups related fields under one heading inside a form.',
@@ -161,6 +205,46 @@ export const COMPONENT_GROUPS: readonly NavGroup[] = [
 			component('avatar', 'Avatar', CircleUser, {
 				en: 'A person as a photo or as initials, in any size or color.',
 				es: 'Una persona como foto o como iniciales, en cualquier tamaño o color.'
+			}),
+			component('user-info', 'UserInfo', UserRound, {
+				en: 'An avatar with a name and a line of detail.',
+				es: 'Un avatar con nombre y una línea de detalle.'
+			}),
+			component('stat-card', 'StatCard', Gauge, {
+				en: 'The key numbers of a dashboard.',
+				es: 'Los números clave de un dashboard.'
+			}),
+			component('dashboard-chart', 'Charts', ChartLine, {
+				en: 'Line, bar and donut charts with no extra dependencies.',
+				es: 'Gráficos de línea, barras y dona sin dependencias extra.'
+			}),
+			component('message', 'Message', MessagesSquare, {
+				en: 'Chat bubbles and a scrolling conversation.',
+				es: 'Burbujas de chat y una conversación con scroll.'
+			}),
+			component('image', 'Image', ImageIcon, {
+				en: 'Images with a stable layout, and loading and error states.',
+				es: 'Imágenes con disposición estable y estados de carga y error.'
+			}),
+			component('icon', 'Icon', Shapes, {
+				en: 'Lucide icons sized and colored with Lumi tokens.',
+				es: 'Iconos de Lucide con tamaño y color de los tokens de Lumi.'
+			}),
+			component('icon-badge', 'IconBadge', BadgeCheck, {
+				en: 'An icon on a soft tile, in any color role.',
+				es: 'Un icono sobre un fondo suave, en cualquier rol de color.'
+			}),
+			component('title', 'Title', Heading2, {
+				en: 'Headings with a separate level and size.',
+				es: 'Encabezados con nivel y tamaño independientes.'
+			}),
+			component('divider', 'Divider', Minus, {
+				en: 'A line between groups of content, with an optional label.',
+				es: 'Una línea entre grupos de contenido, con etiqueta opcional.'
+			}),
+			component('collapse', 'Collapse', ChevronsUpDown, {
+				en: 'Content that opens and closes in place.',
+				es: 'Contenido que se abre y se cierra en su sitio.'
 			})
 		]
 	},
@@ -180,6 +264,26 @@ export const COMPONENT_GROUPS: readonly NavGroup[] = [
 			component('empty-state', 'EmptyState', Inbox, {
 				en: 'What to show when there is nothing to show, and what to do next.',
 				es: 'Qué mostrar cuando no hay nada que mostrar y qué hacer a continuación.'
+			}),
+			component('error-state', 'ErrorState', OctagonAlert, {
+				en: 'Error pages such as 404, in the active language.',
+				es: 'Páginas de error como 404, en el idioma activo.'
+			}),
+			component('loading', 'Loading', LoaderCircle, {
+				en: 'A spinner for waits with an unknown layout.',
+				es: 'Un spinner para esperas de disposición desconocida.'
+			}),
+			component('skeleton', 'Skeleton', RectangleHorizontal, {
+				en: 'Placeholders that keep the layout while content loads.',
+				es: 'Marcadores que mantienen la disposición mientras carga el contenido.'
+			}),
+			component('progress', 'Progress', Percent, {
+				en: 'A bar for work with a known percentage.',
+				es: 'Una barra para trabajo con porcentaje conocido.'
+			}),
+			component('status-indicator', 'StatusIndicator', Circle, {
+				en: 'A small status dot with an explanation.',
+				es: 'Un pequeño punto de estado con explicación.'
 			})
 		]
 	},
@@ -218,6 +322,22 @@ export const COMPONENT_GROUPS: readonly NavGroup[] = [
 			component('tabs', 'Tabs', PanelsTopLeft, {
 				en: 'Switch between sections of one page with a full keyboard model.',
 				es: 'Cambia entre secciones de una página con control completo por teclado.'
+			}),
+			component('pagination', 'Pagination', Ellipsis, {
+				en: 'Move through pages of results, with real links when you need them.',
+				es: 'Muévete entre páginas de resultados, con enlaces reales cuando los necesites.'
+			}),
+			component('sidebar', 'Sidebar', PanelLeft, {
+				en: 'The main navigation of an application, with the Navbar.',
+				es: 'La navegación principal de una aplicación, con Navbar.'
+			}),
+			component('page-sidebar', 'PageSidebar', PanelRight, {
+				en: 'Filters beside content, and a panel on phones.',
+				es: 'Filtros junto al contenido, y un panel en móviles.'
+			}),
+			component('quick-access-card', 'QuickAccessCard', Zap, {
+				en: 'Shortcut cards for a home screen.',
+				es: 'Tarjetas de acceso directo para una pantalla de inicio.'
 			})
 		]
 	}

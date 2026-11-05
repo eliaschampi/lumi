@@ -42,11 +42,12 @@ export async function loadDocView(slug: string, lang: Lang): Promise<DocView | u
 		use: doc.use?.[lang],
 		avoid: doc.avoid?.[lang],
 		sections: await Promise.all(
-			doc.sections.map(async ({ id, title, text, demo, showCode, snippet }) => ({
+			doc.sections.map(async ({ id, title, text, demo, showCode, preview, snippet }) => ({
 				id,
 				title: title[lang],
 				text: text[lang],
 				demo,
+				preview: preview !== false,
 				snippet,
 				code: demo && showCode !== false ? await demoCode(lang, `${slug}/${demo}`) : undefined
 			}))
